@@ -1,0 +1,26 @@
+<node>
+  <interface name="com.telekom_mms.oc_daemon.Daemon">
+    <!-- Properties -->
+    <!-- ConnectionState: 0: unknown, 1: disconnected, 2: connecting, 3: connected, 4: disconnecting -->
+    <!-- Good Case: 0 -> 1 -> 2 -> 3 -> 4 -> 1 -->
+    <!-- Bad Cases: 2 -> 1, 1|2|3|4 -> 0 -->
+    <property name="ConnectionState" type="u" access="read"/>
+    <!-- TrustedNetwork: 0: unknown, 1: not trusted, 2: trusted -->
+    <property name="TrustedNetwork" type="u" access="read"/>
+    <property name="IP" type="s" access="read"/>
+    <property name="Device" type="s" access="read"/>
+    <!-- unix timestamp in sec, -1 on disconnect -->
+    <property name="ConnectedAt" type="x" access="read"/>
+    <!-- runtime connection config -->
+    <property name="Servers" type="as" access="read"/>
+    <!-- Methods -->
+    <method name="Connect">
+      <arg type="s" name="cookie" direction="in"/>
+      <arg type="s" name="host" direction="in"/>
+      <arg type="s" name="connectUrl" direction="in"/>
+      <arg type="s" name="fingerprint" direction="in"/>
+      <arg type="s" name="resolve" direction="in"/>
+    </method>
+    <method name="Disconnect"/>
+  </interface>
+</node>
