@@ -1,0 +1,14 @@
+<node>
+  <interface name="com.telekom_mms.fw_id_agent.Agent">
+    <!-- Properties -->
+    <!-- TrustedNetwork: 0: unknown, 1: not trusted, 2: trusted -->
+    <property name="TrustedNetwork" type="u" access="read"/>
+    <!-- LoginState: 0: unknown, 1: logged out, 2: logging in, 3: logged in, 4: logging out -->
+    <property name="LoginState" type="u" access="read"/>
+    <property name="LastKeepAliveAt" type="x" access="read"/>
+    <property name="KerberosTGTStartTime" type="x" access="read"/>
+    <property name="KerberosTGTEndTime" type="x" access="read"/>
+    <!-- Methods -->
+    <method name="ReLogin"/>
+  </interface>
+</node>

@@ -1,0 +1,50 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Fetch Tags
+        run: git fetch --force --tags
+
+      - name: Install xvfb and gtk
+        run: sudo apt-get update && sudo apt-get install libgtk-4-dev  libglib2.0-dev xvfb -y
+
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: stable
+
+      - name: Run test
+        run: xvfb-run -a go test -v -timeout 60m -coverprofile cover.out ./... | tee test.out
+        shell: bash
+
+      - name: Process results
+        if: always()
+        uses: malaupa/go-test-coverage-summary-action@v2.0.0
+        with:
+          with_archive: true
+
+      - name: Release
+        uses: goreleaser/goreleaser-action@v4
+        with:
+          distribution: goreleaser
+          version: latest
+          args: release --clean --timeout 60m
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+# yaml-language-server: $schema=https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/github-workflow.json

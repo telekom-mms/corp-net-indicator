@@ -1,0 +1,100 @@
+before:
+  hooks:
+    - go mod tidy
+    # call generate manually to not slow down release: https://github.com/golang/go/issues/49039
+    # - go generate ./...
+builds:
+  - env:
+      - CGO_ENABLED=1
+    goos:
+      - linux
+    goarch:
+      - amd64
+    id: corp-net-indicator
+    main: ./cmd/corp-net-indicator/main.go
+    # buildmode: pie
+    ldflags:
+      - -s -w -X github.com/telekom-mms/corp-net-indicator/internal/config.Version={{.Version}} -X github.com/telekom-mms/corp-net-indicator/internal/config.Commit={{.Commit}}
+upx:
+  - enabled: true
+    compress: "7"
+archives:
+  - format: tar.gz
+    rlcp: true
+    wrap_in_directory: true
+    files:
+      - src: init/corp-net-indicator.service
+        dst: corp-net-indicator.service
+        info:
+          mode: 0644
+      - src: init/corp-net-indicator.desktop
+        dst: corp-net-indicator.desktop
+        info:
+          mode: 0644
+      - README.md
+      - LICENSE
+checksum:
+  name_template: "checksums.txt"
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+nfpms:
+  - package_name: corp-net-indicator
+    file_name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Arch }}"
+    vendor: Deutsche Telekom MMS GmbH
+    maintainer: The MMS Linux Dev Team <mmslinux-dev@t-systems-mms.com>
+    description: |-
+      Corporate Network Status
+      Program to show network status and controls identity login and vpn connection.
+    license: MIT
+    formats:
+      - deb
+    bindir: /usr/bin
+    section: net
+    # important: this makes the package non native
+    release: "1"
+    priority: optional
+    # chglog init -> generates changelog.yml
+    # chglog add --version v#.#.# -> after every tag, call in hook above?
+    # activate if https://github.com/goreleaser/nfpm/pull/656 is merged and used in goreleaser
+    # -> remove overrides
+    # changelog: "changelog.yml"
+    scripts:
+      postinstall: build/package/postinstall.sh
+      preremove: build/package/preremove.sh
+      postremove: build/package/postremove.sh
+    deb:
+      lintian_overrides:
+        - "no-changelog"
+        - "no-manual-page"
+        - "statically-linked-binary"
+    dependencies:
+      - "libc6"
+      - "libcairo2"
+      - "libcairo-gobject2"
+      - "libgdk-pixbuf-2.0-0"
+      - "libglib2.0-0"
+      - "libgraphene-1.0-0"
+      - "libgtk-4-1"
+      - "libpango-1.0-0"
+    contents:
+      - src: init/corp-net-indicator.desktop
+        dst: /usr/share/applications/
+        file_info:
+          mode: 0644
+      - src: init/corp-net-indicator.service
+        dst: /usr/lib/systemd/user/
+        file_info:
+          mode: 0644
+      - src: copyright
+        dst: /usr/share/doc/corp-net-indicator/
+        file_info:
+          mode: 0644
+release:
+  prerelease: auto
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json

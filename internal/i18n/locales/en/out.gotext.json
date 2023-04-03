@@ -1,0 +1,197 @@
+{
+    "language": "en",
+    "messages": [
+        {
+            "id": "Status",
+            "message": "Status",
+            "translation": "Status",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Show Status",
+            "message": "Show Status",
+            "translation": "Show Status",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Connect VPN",
+            "message": "Connect VPN",
+            "translation": "Connect VPN",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Connect to VPN",
+            "message": "Connect to VPN",
+            "translation": "Connect to VPN",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Disconnect VPN",
+            "message": "Disconnect VPN",
+            "translation": "Disconnect VPN",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "About",
+            "message": "About",
+            "translation": "About",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Program to show corporate network status.",
+            "message": "Program to show corporate network status.",
+            "translation": "Program to show corporate network status.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Error: [{Err}]",
+            "message": "Error: [{Err}]",
+            "translation": "Error: [{Err}]",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "Err",
+                    "string": "%[1]v",
+                    "type": "error",
+                    "underlyingType": "interface{Error() string}",
+                    "argNum": 1,
+                    "expr": "err"
+                }
+            ],
+            "fuzzy": true
+        },
+        {
+            "id": "ReLogin",
+            "message": "ReLogin",
+            "translation": "ReLogin",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Identity Details",
+            "message": "Identity Details",
+            "translation": "Identity Details",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Logged in",
+            "message": "Logged in",
+            "translation": "Logged in",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Last Refresh",
+            "message": "Last Refresh",
+            "translation": "Last Refresh",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Kerberos ticket valid until",
+            "message": "Kerberos ticket valid until",
+            "translation": "Kerberos ticket valid until",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Password",
+            "message": "Password",
+            "translation": "Password",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Server",
+            "message": "Server",
+            "translation": "Server",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Connect",
+            "message": "Connect",
+            "translation": "Connect",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Cancel",
+            "message": "Cancel",
+            "translation": "Cancel",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "not trusted",
+            "message": "not trusted",
+            "translation": "not trusted",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "VPN Details",
+            "message": "VPN Details",
+            "translation": "VPN Details",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Physical network",
+            "message": "Physical network",
+            "translation": "Physical network",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Connected",
+            "message": "Connected",
+            "translation": "Connected",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Connected at",
+            "message": "Connected at",
+            "translation": "Connected at",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "IP",
+            "message": "IP",
+            "translation": "IP",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Device",
+            "message": "Device",
+            "translation": "Device",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Certificate expires",
+            "message": "Certificate expires",
+            "translation": "Certificate expires",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "trusted",
+            "message": "trusted",
+            "translation": "trusted",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        }
+    ]
+}

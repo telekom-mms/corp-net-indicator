@@ -1,0 +1,145 @@
+{
+    "language": "de",
+    "messages": [
+        {
+            "id": "Status",
+            "message": "Status",
+            "translation": "Status"
+        },
+        {
+            "id": "Show Status",
+            "message": "Show Status",
+            "translation": "Status anzeigen"
+        },
+        {
+            "id": "Connect VPN",
+            "message": "Connect VPN",
+            "translation": "VPN verbinden"
+        },
+        {
+            "id": "Connect to VPN",
+            "message": "Connect to VPN",
+            "translation": "Mit dem VPN verbinden"
+        },
+        {
+            "id": "Disconnect VPN",
+            "message": "Disconnect VPN",
+            "translation": "VPN trennen"
+        },
+        {
+            "id": "About",
+            "message": "About",
+            "translation": "Über"
+        },
+        {
+            "id": "Program to show corporate network status.",
+            "message": "Program to show corporate network status.",
+            "translation": "Ein Programm zur Anzeige des Unternehmensnetzwerkstatus."
+        },
+        {
+            "id": "Error: [{Err}]",
+            "message": "Error: [{Err}]",
+            "translation": "Fehler: [{Err}]",
+            "placeholders": [
+                {
+                    "id": "Err",
+                    "string": "%[1]v",
+                    "type": "error",
+                    "underlyingType": "interface{Error() string}",
+                    "argNum": 1,
+                    "expr": "err"
+                }
+            ]
+        },
+        {
+            "id": "ReLogin",
+            "message": "ReLogin",
+            "translation": "Neu anmelden"
+        },
+        {
+            "id": "Identity Details",
+            "message": "Identity Details",
+            "translation": "Identity Details"
+        },
+        {
+            "id": "Logged in",
+            "message": "Logged in",
+            "translation": "Angemeldet"
+        },
+        {
+            "id": "Last Refresh",
+            "message": "Last Refresh",
+            "translation": "Letzte Anmeldung"
+        },
+        {
+            "id": "Kerberos ticket valid until",
+            "message": "Kerberos ticket valid until",
+            "translation": "Kerberos Ticket gültig bis"
+        },
+        {
+            "id": "Password",
+            "message": "Password",
+            "translation": "Passwort"
+        },
+        {
+            "id": "Server",
+            "message": "Server",
+            "translation": "Server"
+        },
+        {
+            "id": "Connect",
+            "message": "Connect",
+            "translation": "Verbinden"
+        },
+        {
+            "id": "Cancel",
+            "message": "Cancel",
+            "translation": "Abbrechen"
+        },
+        {
+            "id": "not trusted",
+            "message": "not trusted",
+            "translation": "nicht vertrauenswürdig"
+        },
+        {
+            "id": "VPN Details",
+            "message": "VPN Details",
+            "translation": "VPN Details"
+        },
+        {
+            "id": "Physical network",
+            "message": "Physical network",
+            "translation": "Phys. Netzwerk"
+        },
+        {
+            "id": "Connected",
+            "message": "Connected",
+            "translation": "Verbunden"
+        },
+        {
+            "id": "Connected at",
+            "message": "Connected at",
+            "translation": "Verbunden am"
+        },
+        {
+            "id": "IP",
+            "message": "IP",
+            "translation": "IP"
+        },
+        {
+            "id": "Device",
+            "message": "Device",
+            "translation": "Gerät"
+        },
+        {
+            "id": "Certificate expires",
+            "message": "Certificate expires",
+            "translation": "Zertifikat läuft aus am"
+        },
+        {
+            "id": "trusted",
+            "message": "trusted",
+            "translation": "vertrauenswürdig"
+        }
+    ]
+}
