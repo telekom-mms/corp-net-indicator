@@ -6,7 +6,7 @@ UNIT='corp-net-indicator.service'
 case "$1" in
   'remove')
     if [ -d /run/systemd/system ] ; then
-      systemctl --user daemon-reload >/dev/null || true
+      systemctl --global daemon-reload >/dev/null || true
     fi
     if [ -x "/usr/bin/deb-systemd-helper" ]; then
       deb-systemd-helper --user mask $UNIT >/dev/null || true
