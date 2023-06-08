@@ -27,7 +27,7 @@ $ sudo systemctl --user enable corp-net-indicator.service
 $ sudo systemctl --user start corp-net-indicator.service
 ```
 
-## Usage
-ToDo
+## Interface
+![Screenshot](/screenshot.png)
 # Credits
 [Eva Icons](https://github.com/akveo/eva-icons)
