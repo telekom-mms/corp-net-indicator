@@ -4,7 +4,7 @@
 UNIT='corp-net-indicator.service'
 
 case "$1" in
-  'configure' |  'abort-upgrade' | 'abort-deconfigure' | 'abort-remove')
+  'configure' | 'abort-upgrade' | 'abort-deconfigure' | 'abort-remove')
     # systemctl daemon-reload
     # systemctl --global enable $UNIT
     # This will only remove masks created by d-s-h on package removal.
