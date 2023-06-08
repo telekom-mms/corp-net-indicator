@@ -120,10 +120,12 @@ func (t *tray) Run() {
 		select {
 		// handle tray menu clicks
 		case <-t.statusItem.ClickedCh:
+			t.windowInitiallyOpened = true
 			logger.Verbose("Open window to connect")
 
 			t.OpenWindow(false)
 		case <-t.actionItem.ClickedCh:
+			t.windowInitiallyOpened = true
 			if t.ctx.Read().Connected {
 				logger.Verbose("Try to disconnect")
 
@@ -206,11 +208,11 @@ func (t *tray) apply(ctx model.ContextValues) {
 	} else {
 		t.actionItem.SetTitle(i18n.L.Sprintf("Connect VPN"))
 		t.actionItem.SetIcon(assets.GetIcon(assets.Connect))
-		if ctx.TrustedNetwork {
-			t.actionItem.Hide()
-		} else {
-			t.actionItem.Show()
-		}
+	}
+	if ctx.TrustedNetwork {
+		t.actionItem.Hide()
+	} else {
+		t.actionItem.Show()
 	}
 }
 
