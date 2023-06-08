@@ -115,6 +115,8 @@ func (t *tray) Run() {
 	// catch interrupt and clean up
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
+	// error channel
+	e := make(chan error, 1)
 	// main loop
 	for {
 		select {
@@ -130,16 +132,19 @@ func (t *tray) Run() {
 				logger.Verbose("Try to disconnect")
 
 				t.actionItem.Disable()
-				err := vSer.Disconnect()
-				if err != nil {
-					logger.Logf("Error: %v\n", err)
-
-					t.actionItem.Enable()
-				}
+				go func() {
+					e <- vSer.Disconnect()
+				}()
 			} else {
 				logger.Verbose("Open window to quick connect")
 
 				t.OpenWindow(true)
+			}
+		// handle disconnect errors
+		case err := <-e:
+			if err != nil {
+				logger.Logf("Error: %v\n", err)
+				t.actionItem.Enable()
 			}
 		// handle status updates
 		case status := <-iChan:

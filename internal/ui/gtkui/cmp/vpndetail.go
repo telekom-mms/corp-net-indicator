@@ -140,15 +140,11 @@ func (vd *VPNDetail) OnActionClicked() {
 	if vd.ctx.Read().Connected {
 		go vd.triggerAction(nil)
 	} else {
-		err := vd.loginDialog.open(func(result *model.Credentials) {
+		vd.loginDialog.open(func(result *model.Credentials) {
 			if result != nil {
 				vd.triggerAction(result)
 			}
 		})
-		if err != nil {
-			// is handled in parent
-			return
-		}
 	}
 }
 

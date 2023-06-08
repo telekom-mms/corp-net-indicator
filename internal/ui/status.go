@@ -56,6 +56,8 @@ func (s *Status) Run(quickConnect bool) {
 	// catch interrupt and clean up
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
+	// error channel
+	e := make(chan error, 1)
 
 	s.window.Open(quickConnect, vSer, func() {
 		for {
@@ -68,15 +70,15 @@ func (s *Status) Run(quickConnect bool) {
 				if connect != nil {
 					logger.Verbose("Open dialog to connect to VPN")
 
-					if err := vSer.ConnectWithPasswordAndServer(connect.Password, connect.Server); err != nil {
-						s.handleError(err)
-					}
+					go func() {
+						e <- vSer.ConnectWithPasswordAndServer(connect.Password, connect.Server)
+					}()
 				} else {
 					logger.Verbose("Tray to disconnect")
 
-					if err := vSer.Disconnect(); err != nil {
-						s.handleError(err)
-					}
+					go func() {
+						e <- vSer.Disconnect()
+					}()
 				}
 			case <-s.reLoginClicked:
 				logger.Verbose("Try to login to identity service")
@@ -84,7 +86,11 @@ func (s *Status) Run(quickConnect bool) {
 				s.ctx.Write(func(ctx *model.ContextValues) {
 					ctx.IdentityInProgress = true
 				})
-				if err := iSer.ReLogin(); err != nil {
+				go func() {
+					e <- iSer.ReLogin()
+				}()
+			case err := <-e:
+				if err != nil {
 					s.handleError(err)
 				}
 			case status := <-iChan:

@@ -18,6 +18,7 @@ import (
 type statusWindow struct {
 	ctx              *model.Context
 	quickConnect     bool
+	initiallyOpened  bool
 	vpnActionClicked chan *model.Credentials
 	reLoginClicked   chan bool
 
@@ -153,7 +154,9 @@ func (sw *statusWindow) ApplyVPNStatus(status *vpnstatus.Status) {
 			if vpnConnected {
 				logger.Verbose("Closing window after quick connect")
 				sw.Close()
-			} else {
+			}
+			if !sw.initiallyOpened && !vpnConnected {
+				sw.initiallyOpened = true
 				logger.Verbose("Open window on quick connect")
 				sw.vpnDetail.OnActionClicked()
 			}

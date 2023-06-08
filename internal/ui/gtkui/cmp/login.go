@@ -22,10 +22,11 @@ func newLoginDialog(parent *gtk.Window, getServers func() ([]string, error)) *lo
 }
 
 // triggers dialog opening
-func (d *loginDialog) open(onResult func(*model.Credentials)) error {
+func (d *loginDialog) open(onResult func(*model.Credentials)) {
 	servers, err := d.getServers()
 	if err != nil {
-		return err
+		// handle in parent
+		return
 	}
 
 	const dialogFlags = 0 |
@@ -119,9 +120,6 @@ func (d *loginDialog) open(onResult func(*model.Credentials)) error {
 
 	// show dialog
 	d.dialog.Show()
-
-	// return result channel -> credentials are given for success
-	return nil
 }
 
 // closes dialog
