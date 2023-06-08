@@ -14,7 +14,7 @@ import (
 
 // minimal interface to interact with an ui implementation
 type StatusWindow interface {
-	Open(quickConnect bool, getServers func() ([]string, error), onReady func())
+	Open(quickConnect bool, service *service.VPNService, onReady func())
 	Close()
 	ApplyIdentityStatus(status *status.Status)
 	ApplyVPNStatus(status *vpnstatus.Status)
@@ -57,7 +57,7 @@ func (s *Status) Run(quickConnect bool) {
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
 
-	s.window.Open(quickConnect, vSer.GetServers, func() {
+	s.window.Open(quickConnect, vSer, func() {
 		for {
 			select {
 			// handle window clicks

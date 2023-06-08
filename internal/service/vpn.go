@@ -1,6 +1,11 @@
 package service
 
 import (
+	"crypto/x509"
+	"encoding/pem"
+	"os/exec"
+
+	"github.com/telekom-mms/corp-net-indicator/internal/logger"
 	oc "github.com/telekom-mms/oc-daemon/pkg/client"
 	"github.com/telekom-mms/oc-daemon/pkg/vpnstatus"
 )
@@ -60,6 +65,25 @@ func (v *VPNService) Disconnect() error {
 func (v *VPNService) GetServers() ([]string, error) {
 	result, err := v.client.Query()
 	return result.Servers, err
+}
+
+func (v *VPNService) GetCertExpireDate() (int64, error) {
+	// read cert
+	out, err := exec.Command("p11tool", "--export", v.client.GetConfig().ClientCertificate).Output()
+	if err != nil {
+		logger.Logf("Warning: Can't read client certificate: %v", err)
+		return -1, err
+	}
+	// decode
+	der, _ := pem.Decode(out)
+	// parse
+	cert, err := x509.ParseCertificate(der.Bytes)
+	if err != nil {
+		logger.Logf("Warning: Can't parse client certificate: %v", err)
+		return -1, err
+	}
+	// set value
+	return cert.NotAfter.Unix(), nil
 }
 
 func (v *VPNService) GetStatus() (*vpnstatus.Status, error) {

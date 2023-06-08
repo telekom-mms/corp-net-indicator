@@ -1,12 +1,6 @@
 package cmp
 
 import (
-	"crypto/x509"
-	"encoding/json"
-	"encoding/pem"
-	"os"
-	"os/exec"
-
 	"github.com/diamondburned/gotk4/pkg/core/glib"
 	gtk "github.com/diamondburned/gotk4/pkg/gtk/v4"
 	"github.com/telekom-mms/corp-net-indicator/internal/i18n"
@@ -46,6 +40,8 @@ func NewVPNDetail(
 	parent *gtk.Window,
 	// servers to list in login window
 	getServers func() ([]string, error),
+	// get cert expire date
+	getCertExpireDate func() (int64, error),
 	// identity details to set button and icon state
 	identityDetail *IdentityDetails) *VPNDetail {
 
@@ -78,36 +74,13 @@ func NewVPNDetail(
 		addRow(i18n.L.Sprintf("Device"), vd.deviceLabel).
 		addRow(i18n.L.Sprintf("Certificate expires"), vd.certExpiresLabel)
 
+		// set expire date
 	go func() {
-		configFile, err := os.ReadFile("/var/lib/oc-daemon/oc-client.json")
+		date, err := getCertExpireDate()
 		if err != nil {
-			logger.Logf("Warning: Can't read daemon config. %v", err)
 			return
 		}
-		type c struct{ ClientCertificate string }
-		var config c
-		err = json.Unmarshal(configFile, &config)
-		if err != nil {
-			logger.Logf("Warning: Can't unmarshal daemon config: %v", err)
-			return
-		}
-
-		// read cert
-		out, err := exec.Command("p11tool", "--export", config.ClientCertificate).Output()
-		if err != nil {
-			logger.Logf("Warning: Can't read client certificate: %v", err)
-			return
-		}
-		// decode
-		der, _ := pem.Decode(out)
-		// parse
-		cert, err := x509.ParseCertificate(der.Bytes)
-		if err != nil {
-			logger.Logf("Warning: Can't parse client certificate: %v", err)
-			return
-		}
-		// set value
-		notAfter := util.FormatDate(cert.NotAfter.Unix())
+		notAfter := util.FormatDate(date)
 		logger.Verbosef("Got certificate expire date: %s", notAfter)
 
 		glib.IdleAdd(func() {

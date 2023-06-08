@@ -8,6 +8,7 @@ import (
 	"github.com/telekom-mms/corp-net-indicator/internal/i18n"
 	"github.com/telekom-mms/corp-net-indicator/internal/logger"
 	"github.com/telekom-mms/corp-net-indicator/internal/model"
+	"github.com/telekom-mms/corp-net-indicator/internal/service"
 	"github.com/telekom-mms/corp-net-indicator/internal/ui/gtkui/cmp"
 	"github.com/telekom-mms/fw-id-agent/pkg/status"
 	"github.com/telekom-mms/oc-daemon/pkg/vpnstatus"
@@ -25,6 +26,8 @@ type statusWindow struct {
 
 	identityDetail *cmp.IdentityDetails
 	vpnDetail      *cmp.VPNDetail
+
+	service *service.VPNService
 }
 
 // creates new status window
@@ -34,8 +37,9 @@ func NewStatusWindow(ctx *model.Context, vpnActionClicked chan *model.Credential
 
 // opens a new status window
 // initialization is done with given status data
-func (sw *statusWindow) Open(quickConnect bool, getServers func() ([]string, error), onReady func()) {
+func (sw *statusWindow) Open(quickConnect bool, service *service.VPNService, onReady func()) {
 	sw.quickConnect = quickConnect
+	sw.service = service
 	app := gtk.NewApplication("com.telekom-mms.corp-net-indicator", gio.ApplicationFlagsNone)
 	app.ConnectActivate(func() {
 		sw.window = gtk.NewApplicationWindow(app)
@@ -89,13 +93,22 @@ func (sw *statusWindow) Open(quickConnect bool, getServers func() ([]string, err
 
 		// create details
 		sw.identityDetail = cmp.NewIdentityDetails(sw.ctx, sw.reLoginClicked)
-		sw.vpnDetail = cmp.NewVPNDetail(sw.ctx, sw.vpnActionClicked, &sw.window.Window, func() ([]string, error) {
-			servers, err := getServers()
-			if err != nil {
-				go sw.NotifyError(err)
-			}
-			return servers, err
-		}, sw.identityDetail)
+		sw.vpnDetail = cmp.NewVPNDetail(sw.ctx, sw.vpnActionClicked, &sw.window.Window,
+			func() ([]string, error) {
+				servers, err := sw.service.GetServers()
+				if err != nil {
+					go sw.NotifyError(err)
+				}
+				return servers, err
+			},
+			func() (int64, error) {
+				date, err := sw.service.GetCertExpireDate()
+				if err != nil {
+					go sw.NotifyError(err)
+				}
+				return date, err
+			},
+			sw.identityDetail)
 
 		// append all boxes
 		details.Append(sw.identityDetail)
