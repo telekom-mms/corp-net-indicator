@@ -1,5 +1,5 @@
 #!/bin/sh -e
-# taken from https://github.com/Debian/debhelper/blob/master/dh
+# taken from https://github.com/Debian/debhelper/blob/master/autoscripts/postrm-systemd-user
 
 UNIT='corp-net-indicator.service'
 

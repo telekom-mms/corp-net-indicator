@@ -1,5 +1,5 @@
 #!/bin/sh -e
-# taken from https://github.com/Debian/debhelper/blob/master/dh
+# taken from https://github.com/Debian/debhelper/blob/master/autoscripts/postinst-systemd-user-enable
 
 UNIT='corp-net-indicator.service'
 
