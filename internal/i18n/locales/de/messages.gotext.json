@@ -37,6 +37,41 @@
             "translation": "Ein Programm zur Anzeige des Unternehmensnetzwerkstatus."
         },
         {
+            "id": "Could not connect. Please Retry.",
+            "message": "Could not connect. Please Retry.",
+            "translation": "Verbindung fehlgeschlagen. Bitte erneut versuchen."
+        },
+        {
+            "id": "Could not disconnect. Please Retry.",
+            "message": "Could not disconnect. Please Retry.",
+            "translation": "Trennung fehlgeschlagen. Bitte erneut versuchen."
+        },
+        {
+            "id": "Could not query current VPN status.",
+            "message": "Could not query current VPN status.",
+            "translation": "Aktueller VPN-Status konnte nicht abgefragt werden."
+        },
+        {
+            "id": "Could not query server list.",
+            "message": "Could not query server list.",
+            "translation": "Server-Liste konnte nicht abgefragt werden."
+        },
+        {
+            "id": "Could not query certification expire date.",
+            "message": "Could not query certification expire date.",
+            "translation": "Ablaufdatum des Zertifikats konnte nicht abgefragt werden."
+        },
+        {
+            "id": "Could not refresh identity login. Please Retry.",
+            "message": "Could not refresh identity login. Please Retry.",
+            "translation": "Identität konnte nicht angemeldet werden."
+        },
+        {
+            "id": "Could not query current Identity status.",
+            "message": "Could not query current Identity status.",
+            "translation": "Aktueller Identitätsstatus konnte nicht abgefragt werden."
+        },
+        {
             "id": "Error: [{Err}]",
             "message": "Error: [{Err}]",
             "translation": "Fehler: [{Err}]",

@@ -6,6 +6,9 @@ import (
 	"github.com/telekom-mms/fw-id-agent/pkg/status"
 )
 
+type ErrReLogin struct{ BaseError }
+type ErrGetIdentityStatus struct{ BaseError }
+
 func IdentityInProgress(state status.LoginState) bool {
 	return state == status.LoginStateLoggingIn || state == status.LoginStateLoggingOut
 }
@@ -41,12 +44,13 @@ func (i *IdentityService) Subscribe() <-chan *status.Status {
 
 // retrieves identity status
 func (i *IdentityService) GetStatus() (*status.Status, error) {
-	return i.client.Query()
+	status, err := i.client.Query()
+	return status, wrapErr(err, &ErrGetIdentityStatus{})
 }
 
 // triggers identity agent login
 func (i *IdentityService) ReLogin() error {
-	return i.client.ReLogin()
+	return wrapErr(i.client.ReLogin(), &ErrReLogin{})
 }
 
 // closes resources

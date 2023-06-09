@@ -39,69 +39,93 @@ func init() {
 }
 
 var messageKeyToIndex = map[string]int{
-	"About":                       5,
-	"Cancel":                      16,
-	"Certificate expires":         24,
-	"Connect":                     15,
-	"Connect VPN":                 2,
-	"Connect to VPN":              3,
-	"Connected":                   20,
-	"Connected at":                21,
-	"Device":                      23,
+	"About":                               5,
+	"Cancel":                              23,
+	"Certificate expires":                 31,
+	"Connect":                             22,
+	"Connect VPN":                         2,
+	"Connect to VPN":                      3,
+	"Connected":                           27,
+	"Connected at":                        28,
+	"Could not connect. Please Retry.":    7,
+	"Could not disconnect. Please Retry.": 8,
+	"Could not query certification expire date.":      11,
+	"Could not query current Identity status.":        13,
+	"Could not query current VPN status.":             9,
+	"Could not query server list.":                    10,
+	"Could not refresh identity login. Please Retry.": 12,
+	"Device":                      30,
 	"Disconnect VPN":              4,
-	"Error: [%v]":                 7,
-	"IP":                          22,
-	"Identity Details":            9,
-	"Kerberos ticket valid until": 12,
-	"Last Refresh":                11,
-	"Logged in":                   10,
-	"Password":                    13,
-	"Physical network":            19,
+	"Error: [%v]":                 14,
+	"IP":                          29,
+	"Identity Details":            16,
+	"Kerberos ticket valid until": 19,
+	"Last Refresh":                18,
+	"Logged in":                   17,
+	"Password":                    20,
+	"Physical network":            26,
 	"Program to show corporate network status.": 6,
-	"ReLogin":     8,
-	"Server":      14,
+	"ReLogin":     15,
+	"Server":      21,
 	"Show Status": 1,
 	"Status":      0,
-	"VPN Details": 18,
-	"not trusted": 17,
-	"trusted":     25,
+	"VPN Details": 25,
+	"not trusted": 24,
+	"trusted":     32,
 }
 
-var deIndex = []uint32{ // 27 elements
+var deIndex = []uint32{ // 34 elements
+	// Entry 0 - 1F
 	0x00000000, 0x00000007, 0x00000017, 0x00000025,
 	0x0000003b, 0x00000047, 0x0000004d, 0x00000086,
-	0x00000096, 0x000000a3, 0x000000b4, 0x000000bf,
-	0x000000d0, 0x000000ec, 0x000000f5, 0x000000fc,
-	0x00000106, 0x00000110, 0x00000128, 0x00000134,
-	0x00000143, 0x0000014d, 0x0000015a, 0x0000015d,
-	0x00000164, 0x0000017d, 0x0000018f,
-} // Size: 132 bytes
+	0x000000b9, 0x000000ea, 0x0000011e, 0x0000014a,
+	0x00000185, 0x000001b0, 0x000001eb, 0x000001fb,
+	0x00000208, 0x00000219, 0x00000224, 0x00000235,
+	0x00000251, 0x0000025a, 0x00000261, 0x0000026b,
+	0x00000275, 0x0000028d, 0x00000299, 0x000002a8,
+	0x000002b2, 0x000002bf, 0x000002c2, 0x000002c9,
+	// Entry 20 - 3F
+	0x000002e2, 0x000002f4,
+} // Size: 160 bytes
 
-const deData string = "" + // Size: 399 bytes
+const deData string = "" + // Size: 756 bytes
 	"\x02Status\x02Status anzeigen\x02VPN verbinden\x02Mit dem VPN verbinden" +
 	"\x02VPN trennen\x02Über\x02Ein Programm zur Anzeige des Unternehmensnetz" +
-	"werkstatus.\x02Fehler: [%[1]v]\x02Neu anmelden\x02Identity Details\x02An" +
-	"gemeldet\x02Letzte Anmeldung\x02Kerberos Ticket gültig bis\x02Passwort" +
-	"\x02Server\x02Verbinden\x02Abbrechen\x02nicht vertrauenswürdig\x02VPN De" +
-	"tails\x02Phys. Netzwerk\x02Verbunden\x02Verbunden am\x02IP\x02Gerät\x02Z" +
-	"ertifikat läuft aus am\x02vertrauenswürdig"
+	"werkstatus.\x02Verbindung fehlgeschlagen. Bitte erneut versuchen.\x02Tre" +
+	"nnung fehlgeschlagen. Bitte erneut versuchen.\x02Aktueller VPN-Status ko" +
+	"nnte nicht abgefragt werden.\x02Server-Liste konnte nicht abgefragt werd" +
+	"en.\x02Ablaufdatum des Zertifikats konnte nicht abgefragt werden.\x02Ide" +
+	"ntität konnte nicht angemeldet werden.\x02Aktueller Identitätsstatus kon" +
+	"nte nicht abgefragt werden.\x02Fehler: [%[1]v]\x02Neu anmelden\x02Identi" +
+	"ty Details\x02Angemeldet\x02Letzte Anmeldung\x02Kerberos Ticket gültig b" +
+	"is\x02Passwort\x02Server\x02Verbinden\x02Abbrechen\x02nicht vertrauenswü" +
+	"rdig\x02VPN Details\x02Phys. Netzwerk\x02Verbunden\x02Verbunden am\x02IP" +
+	"\x02Gerät\x02Zertifikat läuft aus am\x02vertrauenswürdig"
 
-var enIndex = []uint32{ // 27 elements
+var enIndex = []uint32{ // 34 elements
+	// Entry 0 - 1F
 	0x00000000, 0x00000007, 0x00000013, 0x0000001f,
 	0x0000002e, 0x0000003d, 0x00000043, 0x0000006d,
-	0x0000007c, 0x00000084, 0x00000095, 0x0000009f,
-	0x000000ac, 0x000000c8, 0x000000d1, 0x000000d8,
-	0x000000e0, 0x000000e7, 0x000000f3, 0x000000ff,
-	0x00000110, 0x0000011a, 0x00000127, 0x0000012a,
-	0x00000131, 0x00000145, 0x0000014d,
-} // Size: 132 bytes
+	0x0000008e, 0x000000b2, 0x000000d6, 0x000000f3,
+	0x0000011e, 0x0000014e, 0x00000177, 0x00000186,
+	0x0000018e, 0x0000019f, 0x000001a9, 0x000001b6,
+	0x000001d2, 0x000001db, 0x000001e2, 0x000001ea,
+	0x000001f1, 0x000001fd, 0x00000209, 0x0000021a,
+	0x00000224, 0x00000231, 0x00000234, 0x0000023b,
+	// Entry 20 - 3F
+	0x0000024f, 0x00000257,
+} // Size: 160 bytes
 
-const enData string = "" + // Size: 333 bytes
+const enData string = "" + // Size: 599 bytes
 	"\x02Status\x02Show Status\x02Connect VPN\x02Connect to VPN\x02Disconnect" +
-	" VPN\x02About\x02Program to show corporate network status.\x02Error: [%[" +
-	"1]v]\x02ReLogin\x02Identity Details\x02Logged in\x02Last Refresh\x02Kerb" +
-	"eros ticket valid until\x02Password\x02Server\x02Connect\x02Cancel\x02no" +
-	"t trusted\x02VPN Details\x02Physical network\x02Connected\x02Connected a" +
-	"t\x02IP\x02Device\x02Certificate expires\x02trusted"
+	" VPN\x02About\x02Program to show corporate network status.\x02Could not " +
+	"connect. Please Retry.\x02Could not disconnect. Please Retry.\x02Could n" +
+	"ot query current VPN status.\x02Could not query server list.\x02Could no" +
+	"t query certification expire date.\x02Could not refresh identity login. " +
+	"Please Retry.\x02Could not query current Identity status.\x02Error: [%[1" +
+	"]v]\x02ReLogin\x02Identity Details\x02Logged in\x02Last Refresh\x02Kerbe" +
+	"ros ticket valid until\x02Password\x02Server\x02Connect\x02Cancel\x02not" +
+	" trusted\x02VPN Details\x02Physical network\x02Connected\x02Connected at" +
+	"\x02IP\x02Device\x02Certificate expires\x02trusted"
 
-	// Total table size 996 bytes (0KiB); checksum: 6088A532
+	// Total table size 1675 bytes (1KiB); checksum: 3DDAE4C8

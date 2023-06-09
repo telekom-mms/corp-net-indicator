@@ -10,6 +10,12 @@ import (
 	"github.com/telekom-mms/oc-daemon/pkg/vpnstatus"
 )
 
+type ErrConnect struct{ BaseError }
+type ErrDisconnect struct{ BaseError }
+type ErrGetServers struct{ BaseError }
+type ErrGetCertDate struct{ BaseError }
+type ErrGetVPNStatus struct{ BaseError }
+
 func VPNInProgress(state vpnstatus.ConnectionState) bool {
 	return state == vpnstatus.ConnectionStateConnecting || state == vpnstatus.ConnectionStateDisconnecting
 }
@@ -49,22 +55,22 @@ func (v *VPNService) ConnectWithPasswordAndServer(password string, server string
 	v.client.SetConfig(config)
 	// v.client.SetLogin(&logininfo.LoginInfo{})
 
-	err := v.client.Authenticate()
+	err := wrapErr(v.client.Authenticate(), &ErrConnect{})
 	if err != nil {
 		return err
 	}
 
-	return v.client.Connect()
+	return wrapErr(v.client.Connect(), &ErrConnect{})
 }
 
 func (v *VPNService) Disconnect() error {
-	return v.client.Disconnect()
+	return wrapErr(v.client.Disconnect(), &ErrDisconnect{})
 }
 
 // Returns servers to connect to
 func (v *VPNService) GetServers() ([]string, error) {
 	result, err := v.client.Query()
-	return result.Servers, err
+	return result.Servers, wrapErr(err, &ErrGetServers{})
 }
 
 func (v *VPNService) GetCertExpireDate() (int64, error) {
@@ -72,7 +78,7 @@ func (v *VPNService) GetCertExpireDate() (int64, error) {
 	out, err := exec.Command("p11tool", "--export", v.client.GetConfig().ClientCertificate).Output()
 	if err != nil {
 		logger.Logf("Warning: Can't read client certificate: %v", err)
-		return -1, err
+		return -1, wrapErr(err, &ErrGetCertDate{})
 	}
 	// decode
 	der, _ := pem.Decode(out)
@@ -80,14 +86,15 @@ func (v *VPNService) GetCertExpireDate() (int64, error) {
 	cert, err := x509.ParseCertificate(der.Bytes)
 	if err != nil {
 		logger.Logf("Warning: Can't parse client certificate: %v", err)
-		return -1, err
+		return -1, wrapErr(err, &ErrGetCertDate{})
 	}
 	// set value
 	return cert.NotAfter.Unix(), nil
 }
 
 func (v *VPNService) GetStatus() (*vpnstatus.Status, error) {
-	return v.client.Query()
+	status, err := v.client.Query()
+	return status, wrapErr(err, &ErrGetVPNStatus{})
 }
 
 func (v *VPNService) Close() {

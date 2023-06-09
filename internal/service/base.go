@@ -38,3 +38,29 @@ func waitAndSubscribe[T interface{}](client client[T], statusChan chan T, done c
 		}
 	}
 }
+
+type WrappedError interface {
+	Error() string
+	setError(err error)
+}
+
+type BaseError struct {
+	wrapped error
+}
+
+func (e *BaseError) Error() string {
+	return e.wrapped.Error()
+}
+
+func (e *BaseError) setError(err error) {
+	e.wrapped = err
+}
+
+func wrapErr[T WrappedError](toWrap error, wrapper T) error {
+	if toWrap != nil {
+		logger.Logf("Client error: %v", toWrap)
+		wrapper.setError(toWrap)
+		return wrapper
+	}
+	return nil
+}

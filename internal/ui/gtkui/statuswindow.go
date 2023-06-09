@@ -179,8 +179,27 @@ func (sw *statusWindow) NotifyError(err error) {
 	if sw.window == nil {
 		return
 	}
+	var msg string
+	switch err.(type) {
+	case *service.ErrConnect:
+		msg = i18n.L.Sprintf("Could not connect. Please Retry.")
+	case *service.ErrDisconnect:
+		msg = i18n.L.Sprintf("Could not disconnect. Please Retry.")
+	case *service.ErrGetVPNStatus:
+		msg = i18n.L.Sprintf("Could not query current VPN status.")
+	case *service.ErrGetServers:
+		msg = i18n.L.Sprintf("Could not query server list.")
+	case *service.ErrGetCertDate:
+		msg = i18n.L.Sprintf("Could not query certification expire date.")
+	case *service.ErrReLogin:
+		msg = i18n.L.Sprintf("Could not refresh identity login. Please Retry.")
+	case *service.ErrGetIdentityStatus:
+		msg = i18n.L.Sprintf("Could not query current Identity status.")
+	default:
+		msg = i18n.L.Sprintf("Error: [%v]", err)
+	}
 	glib.IdleAdd(func() {
 		sw.vpnDetail.SetButtonsAfterProgress()
-		sw.notification.Show(i18n.L.Sprintf("Error: [%v]", err))
+		sw.notification.Show(msg)
 	})
 }

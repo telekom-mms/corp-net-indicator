@@ -51,6 +51,55 @@
             "fuzzy": true
         },
         {
+            "id": "Could not connect. Please Retry.",
+            "message": "Could not connect. Please Retry.",
+            "translation": "Could not connect. Please Retry.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Could not disconnect. Please Retry.",
+            "message": "Could not disconnect. Please Retry.",
+            "translation": "Could not disconnect. Please Retry.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Could not query current VPN status.",
+            "message": "Could not query current VPN status.",
+            "translation": "Could not query current VPN status.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Could not query server list.",
+            "message": "Could not query server list.",
+            "translation": "Could not query server list.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Could not query certification expire date.",
+            "message": "Could not query certification expire date.",
+            "translation": "Could not query certification expire date.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Could not refresh identity login. Please Retry.",
+            "message": "Could not refresh identity login. Please Retry.",
+            "translation": "Could not refresh identity login. Please Retry.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Could not query current Identity status.",
+            "message": "Could not query current Identity status.",
+            "translation": "Could not query current Identity status.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Error: [{Err}]",
             "message": "Error: [{Err}]",
             "translation": "Error: [{Err}]",
