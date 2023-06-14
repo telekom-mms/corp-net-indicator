@@ -1,13 +1,10 @@
 #!/bin/sh -e
-# taken from https://github.com/Debian/debhelper/blob/master/autoscripts/postrm-systemd-user
+# taken from https://git.launchpad.net/ubuntu/+source/debhelper/tree/autoscripts/postrm-systemd-user?h=applied/13.6ubuntu1
 
 UNIT='corp-net-indicator.service'
 
 case "$1" in
   'remove')
-    if [ -d /run/systemd/system ] ; then
-      systemctl --global daemon-reload >/dev/null || true
-    fi
     if [ -x "/usr/bin/deb-systemd-helper" ]; then
       deb-systemd-helper --user mask $UNIT >/dev/null || true
     fi

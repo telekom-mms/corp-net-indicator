@@ -82,6 +82,7 @@ nfpms:
       - "libgraphene-1.0-0"
       - "libgtk-4-1"
       - "libpango-1.0-0"
+      - "init-system-helpers (>= 1.62)"
     contents:
       - src: init/corp-net-indicator.desktop
         dst: /usr/share/applications/

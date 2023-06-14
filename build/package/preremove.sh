@@ -1,12 +1,13 @@
 #!/bin/sh -e
-# taken from https://github.com/Debian/debhelper/blob/master/autoscripts/prerm-systemd
+# taken from https://git.launchpad.net/ubuntu/+source/debhelper/tree/autoscripts/prerm-systemd?h=applied/13.6ubuntu1
+# adapted to user units
 
 UNIT='corp-net-indicator.service'
 
 case "$1" in
-  'remove')
+  'remove' | 'purge')
     if [ -z "${DPKG_ROOT:-}" ] && [ -d /run/systemd/system ] ; then
-      deb-systemd-invoke --user stop $UNIT >/dev/null || true
+      deb-systemd-invoke --global stop $UNIT >/dev/null || true
     fi
     ;;
 esac
