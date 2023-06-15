@@ -66,7 +66,6 @@ nfpms:
     # changelog: "changelog.yml"
     scripts:
       postinstall: build/package/postinstall.sh
-      preremove: build/package/preremove.sh
       postremove: build/package/postremove.sh
     deb:
       lintian_overrides:
