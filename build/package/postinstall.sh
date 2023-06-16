@@ -1,5 +1,5 @@
 #!/bin/sh -e
-# taken from https://github.com/Debian/debhelper/blob/master/autoscripts/postinst-systemd-user-enable
+# taken from https://git.launchpad.net/ubuntu/+source/debhelper/tree/autoscripts/postinst-systemd-user-enable?h=applied/13.6ubuntu1
 
 UNIT='corp-net-indicator.service'
 
