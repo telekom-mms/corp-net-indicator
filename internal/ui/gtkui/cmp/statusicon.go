@@ -19,13 +19,13 @@ func NewStatusIcon(status bool) *statusIcon {
 // changes icon -> true = green check, false = red alert
 func (i *statusIcon) SetStatus(status bool) {
 	if status {
-		i.SetFromPixbuf(assets.GetPixbuf(assets.SVGCheck))
+		i.SetFromPixbuf(getPixbuf(assets.SVGCheck))
 	} else {
-		i.SetFromPixbuf(assets.GetPixbuf(assets.SVGAlert))
+		i.SetFromPixbuf(getPixbuf(assets.SVGAlert))
 	}
 }
 
 // sets a icon to minus circle as value should be ignored
 func (i *statusIcon) SetIgnore() {
-	i.SetFromPixbuf(assets.GetPixbuf(assets.SVGMinus))
+	i.SetFromPixbuf(getPixbuf(assets.SVGMinus))
 }

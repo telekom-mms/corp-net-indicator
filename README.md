@@ -21,8 +21,9 @@ Download the archive from releases page and use the following instructions to in
 ```console
 $ tar -xf corp-net-indicator.tar.gz && cd <extracted directory>
 $ sudo cp corp-net-indicator /usr/bin/
+$ sudo cp corp-net-indicator-win /usr/bin/
 $ sudo cp corp-net-indicator.service /usr/lib/systemd/user/
-$ sudo cp corp-net-indicator.desktop /usr/share/applications/
+$ sudo cp corp-net-indicator-win.desktop /usr/share/applications/
 $ sudo systemctl --user enable corp-net-indicator.service
 $ sudo systemctl --user start corp-net-indicator.service
 ```

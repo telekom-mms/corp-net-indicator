@@ -50,7 +50,12 @@ func (t *tray) OpenWindow(quickConnect bool) {
 	t.closeWindow()
 	self, err := os.Executable()
 	if err != nil {
-		logger.Verbose(err)
+		logger.Log(err)
+		return
+	}
+	trayBin := self + "-win"
+	if _, err := os.Stat(trayBin); err != nil {
+		logger.Log(err)
 		return
 	}
 	var cmd *exec.Cmd
@@ -61,12 +66,16 @@ func (t *tray) OpenWindow(quickConnect bool) {
 	if logger.IsVerbose {
 		args = append(args, "-v")
 	}
-	cmd = exec.Command(self, args...)
+	cmd = exec.Command(trayBin, args...)
 	cmd.Stderr = os.Stderr
 	cmd.Stdout = os.Stdout
 
 	t.closeChan = make(chan struct{})
 	err = cmd.Start()
+	if err != nil {
+		logger.Log(err)
+		return
+	}
 	go func() {
 		_, err := cmd.Process.Wait()
 		logger.Verbose("Waited for closing window")

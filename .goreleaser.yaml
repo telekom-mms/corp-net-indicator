@@ -5,19 +5,34 @@ before:
     # - go generate ./...
 builds:
   - env:
-      - CGO_ENABLED=1
+      - CGO_ENABLED=0
     goos:
       - linux
     goarch:
       - amd64
     id: corp-net-indicator
+    binary: corp-net-indicator
     main: ./cmd/corp-net-indicator/main.go
-    # buildmode: pie
+    buildmode: pie
+    ldflags:
+      - -s -w -X github.com/telekom-mms/corp-net-indicator/internal/config.Version={{.Version}} -X github.com/telekom-mms/corp-net-indicator/internal/config.Commit={{.Commit}}
+  - env:
+      - CGO_ENABLED=1
+    goos:
+      - linux
+    goarch:
+      - amd64
+    id: corp-net-indicator-win
+    binary: corp-net-indicator-win
+    main: ./cmd/corp-net-indicator-win/main.go
+    buildmode: pie
     ldflags:
       - -s -w -X github.com/telekom-mms/corp-net-indicator/internal/config.Version={{.Version}} -X github.com/telekom-mms/corp-net-indicator/internal/config.Commit={{.Commit}}
 upx:
   - enabled: true
     compress: "7"
+    ids:
+      - corp-net-indicator-win
 archives:
   - format: tar.gz
     rlcp: true
@@ -27,8 +42,8 @@ archives:
         dst: corp-net-indicator.service
         info:
           mode: 0644
-      - src: init/corp-net-indicator.desktop
-        dst: corp-net-indicator.desktop
+      - src: init/corp-net-indicator-win.desktop
+        dst: corp-net-indicator-win.desktop
         info:
           mode: 0644
       - README.md
@@ -83,7 +98,7 @@ nfpms:
       - "libpango-1.0-0"
       - "init-system-helpers (>= 1.62)"
     contents:
-      - src: init/corp-net-indicator.desktop
+      - src: init/corp-net-indicator-win.desktop
         dst: /usr/share/applications/
         file_info:
           mode: 0644
