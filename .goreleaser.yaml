@@ -13,7 +13,8 @@ builds:
     id: corp-net-indicator
     binary: corp-net-indicator
     main: ./cmd/corp-net-indicator/main.go
-    buildmode: pie
+    # buildmode: pie
+    no_unique_dist_dir: true
     ldflags:
       - -s -w -X github.com/telekom-mms/corp-net-indicator/internal/config.Version={{.Version}} -X github.com/telekom-mms/corp-net-indicator/internal/config.Commit={{.Commit}}
   - env:
@@ -25,14 +26,13 @@ builds:
     id: corp-net-indicator-win
     binary: corp-net-indicator-win
     main: ./cmd/corp-net-indicator-win/main.go
-    buildmode: pie
+    # buildmode: pie
+    no_unique_dist_dir: true
     ldflags:
       - -s -w -X github.com/telekom-mms/corp-net-indicator/internal/config.Version={{.Version}} -X github.com/telekom-mms/corp-net-indicator/internal/config.Commit={{.Commit}}
 upx:
   - enabled: true
-    compress: "7"
-    ids:
-      - corp-net-indicator-win
+    compress: "1"
 archives:
   - format: tar.gz
     rlcp: true

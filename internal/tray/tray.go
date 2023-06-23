@@ -1,9 +1,11 @@
 package tray
 
 import (
+	"errors"
 	"os"
 	"os/exec"
 	"os/signal"
+	"sync/atomic"
 
 	"github.com/slytomcat/systray"
 	"github.com/telekom-mms/corp-net-indicator/internal/assets"
@@ -22,7 +24,7 @@ type tray struct {
 	startSystray func()
 	quitSystray  func()
 
-	window    *os.Process
+	window    atomic.Pointer[os.Process]
 	closeChan chan struct{}
 
 	windowInitiallyOpened bool
@@ -46,6 +48,7 @@ func (t *tray) onReady() {
 	t.actionItem.Hide()
 }
 
+// opens corp-net-indicator-win
 func (t *tray) OpenWindow(quickConnect bool) {
 	t.closeWindow()
 	self, err := os.Executable()
@@ -70,40 +73,43 @@ func (t *tray) OpenWindow(quickConnect bool) {
 	cmd.Stderr = os.Stderr
 	cmd.Stdout = os.Stdout
 
-	t.closeChan = make(chan struct{})
+	closeChan := make(chan struct{})
 	err = cmd.Start()
 	if err != nil {
 		logger.Log(err)
 		return
 	}
 	go func() {
-		_, err := cmd.Process.Wait()
-		logger.Verbose("Waited for closing window")
+		defer func() {
+			t.window.Store(nil)
+			close(closeChan)
+		}()
 
+		_, err := cmd.Process.Wait()
 		if err != nil {
 			logger.Verbose(err)
 		}
-		close(t.closeChan)
+
+		logger.Verbose("Waited for closing window")
 	}()
-	if err != nil {
-		logger.Verbose(err)
-	}
-	t.window = cmd.Process
+	t.closeChan = closeChan
+	t.window.Store(cmd.Process)
 }
 
 func (t *tray) closeWindow() {
-	if t.window != nil {
-		err := t.window.Signal(os.Interrupt)
-		if err != nil {
-			logger.Verbosef("SIGINT not working: %v\n", err)
-			err = t.window.Kill()
-			if err != nil {
-				logger.Verbosef("SIGKILL not working: %v\n", err)
-			}
-		}
-		<-t.closeChan
-		t.window = nil
+	window := t.window.Load()
+	if window == nil {
+		return
 	}
+	err := window.Signal(os.Interrupt)
+	if err != nil && !errors.Is(err, os.ErrProcessDone) {
+		logger.Verbosef("SIGINT not working: %v\n", err)
+		err = window.Kill()
+		if err != nil && !errors.Is(err, os.ErrProcessDone) {
+			logger.Verbosef("SIGKILL not working: %v\n", err)
+		}
+	}
+	<-t.closeChan
 }
 
 func (t *tray) Run() {
