@@ -98,10 +98,8 @@ func NewVPNDetail(
 func (vd *VPNDetail) Apply(status *vpnstatus.Status, afterApply func(vpnConnected bool)) {
 	glib.IdleAdd(func() {
 		ctx := vd.ctx.Read()
-		if ctx.IdentityInProgress || ctx.VPNInProgress {
-			if ctx.VPNInProgress {
-				vd.actionSpinner.Start()
-			}
+		if ctx.VPNInProgress {
+			vd.actionSpinner.Start()
 			vd.actionBtn.SetSensitive(false)
 			vd.identityDetail.setReLoginBtn(false)
 			return
