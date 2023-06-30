@@ -35,7 +35,6 @@ upx:
     compress: "1"
 archives:
   - format: tar.gz
-    rlcp: true
     wrap_in_directory: true
     files:
       - src: init/corp-net-indicator.service
