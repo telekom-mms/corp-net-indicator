@@ -5,5 +5,5 @@ Name=Corporate Network Indicator
 GenericName=Network Indicator
 GenericName[de]=Netzwerk Indikator
 Icon=applications-internet
-Exec=/usr/bin/corp-net-indicator-win
+Exec=/usr/bin/corp-net-indicator
 NoDisplay=true

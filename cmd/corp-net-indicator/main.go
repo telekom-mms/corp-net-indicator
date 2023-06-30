@@ -3,23 +3,23 @@ package main
 import (
 	"flag"
 
-	"github.com/telekom-mms/corp-net-indicator/internal/config"
 	"github.com/telekom-mms/corp-net-indicator/internal/logger"
-	"github.com/telekom-mms/corp-net-indicator/internal/tray"
+	"github.com/telekom-mms/corp-net-indicator/internal/ui"
 )
 
+var quickConnect bool
 var verbose bool
 
 func init() {
+	flag.BoolVar(&quickConnect, "quick", false, "quick connect to vpn")
 	flag.BoolVar(&verbose, "v", false, "verbose logging")
 }
 
-// starts indicator as tray
+// starts indicator as window
 func main() {
 	flag.Parse()
 
-	// start as tray
-	logger.Setup("TRAY", verbose)
-	logger.Logf("Start corp-net-indicator tray [%s-%s]", config.Version, config.Commit)
-	tray.New().Run()
+	// start as window
+	logger.Setup("WINDOW", verbose)
+	ui.NewStatus().Run(quickConnect)
 }

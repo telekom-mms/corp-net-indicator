@@ -41,7 +41,7 @@ func NewStatusWindow(ctx *model.Context, vpnActionClicked chan *model.Credential
 func (sw *statusWindow) Open(quickConnect bool, service *service.VPNService, onReady func()) {
 	sw.quickConnect = quickConnect
 	sw.service = service
-	app := gtk.NewApplication("com.telekom-mms.corp-net-indicator", gio.ApplicationFlagsNone)
+	app := gtk.NewApplication("de.telekom-mms.corp-net-indicator", gio.ApplicationFlagsNone)
 	app.ConnectActivate(func() {
 		sw.window = gtk.NewApplicationWindow(app)
 		sw.window.SetTitle("Corporate Network Status")

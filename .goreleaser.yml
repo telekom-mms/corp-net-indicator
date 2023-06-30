@@ -10,9 +10,9 @@ builds:
       - linux
     goarch:
       - amd64
-    id: corp-net-indicator
-    binary: corp-net-indicator
-    main: ./cmd/corp-net-indicator/main.go
+    id: corp-net-indicator-tray
+    binary: corp-net-indicator-tray
+    main: ./cmd/corp-net-indicator-tray/main.go
     # buildmode: pie
     no_unique_dist_dir: true
     ldflags:
@@ -23,9 +23,9 @@ builds:
       - linux
     goarch:
       - amd64
-    id: corp-net-indicator-win
-    binary: corp-net-indicator-win
-    main: ./cmd/corp-net-indicator-win/main.go
+    id: corp-net-indicator
+    binary: corp-net-indicator
+    main: ./cmd/corp-net-indicator/main.go
     # buildmode: pie
     no_unique_dist_dir: true
     ldflags:
@@ -42,8 +42,8 @@ archives:
         dst: corp-net-indicator.service
         info:
           mode: 0644
-      - src: init/corp-net-indicator-win.desktop
-        dst: corp-net-indicator-win.desktop
+      - src: init/corp-net-indicator.desktop
+        dst: corp-net-indicator.desktop
         info:
           mode: 0644
       - README.md
@@ -98,7 +98,7 @@ nfpms:
       - "libpango-1.0-0"
       - "init-system-helpers (>= 1.62)"
     contents:
-      - src: init/corp-net-indicator-win.desktop
+      - src: init/corp-net-indicator.desktop
         dst: /usr/share/applications/
         file_info:
           mode: 0644

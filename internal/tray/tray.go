@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/exec"
 	"os/signal"
+	"strings"
 	"sync/atomic"
 
 	"github.com/slytomcat/systray"
@@ -48,7 +49,7 @@ func (t *tray) onReady() {
 	t.actionItem.Hide()
 }
 
-// opens corp-net-indicator-win
+// opens corp-net-indicator window
 func (t *tray) OpenWindow(quickConnect bool) {
 	t.closeWindow()
 	self, err := os.Executable()
@@ -56,7 +57,7 @@ func (t *tray) OpenWindow(quickConnect bool) {
 		logger.Log(err)
 		return
 	}
-	trayBin := self + "-win"
+	trayBin := strings.TrimSuffix(self, "-tray")
 	if _, err := os.Stat(trayBin); err != nil {
 		logger.Log(err)
 		return
