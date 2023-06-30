@@ -53,7 +53,7 @@ func NewVPNDetail(
 	// create action button with spinner, icons and labels
 	vd.actionBtn = gtk.NewButtonWithLabel(i18n.L.Sprintf("Connect VPN"))
 	vd.actionBtn.SetHAlign(gtk.AlignEnd)
-	vd.actionBtn.ConnectClicked(vd.OnActionClicked)
+	vd.actionBtn.ConnectClicked(vd.onActionClicked)
 	vd.actionSpinner = gtk.NewSpinner()
 	vd.actionSpinner.SetHAlign(gtk.AlignEnd)
 	vd.trustedNetworkLabel = gtk.NewLabel(i18n.L.Sprintf("not trusted"))
@@ -106,13 +106,13 @@ func (vd *VPNDetail) Apply(status *vpnstatus.Status, afterApply func(vpnConnecte
 		}
 		connected := status.ConnectionState.Connected()
 		vd.connectedImg.SetStatus(connected)
-		vd.applyTrustedNetwork(status.TrustedNetwork.Trusted())
+		trusted := status.TrustedNetwork.Trusted()
+		vd.applyTrustedNetwork(trusted)
 		vd.connectedAtLabel.SetText(util.FormatDate(status.ConnectedAt))
 		vd.deviceLabel.SetText(util.FormatValue(status.Device))
 		vd.ipLabel.SetText(util.FormatValue(status.IP))
-		// vd.certExpiresLabel.SetText(util.FormatDate(status.CertExpiresAt))
 		vd.SetButtonsAfterProgress()
-		afterApply(connected)
+		afterApply(trusted || connected)
 	})
 }
 
@@ -134,16 +134,31 @@ func (vd *VPNDetail) SetButtonsAfterProgress() {
 }
 
 // is triggered on action click, triggers action according state
-func (vd *VPNDetail) OnActionClicked() {
+func (vd *VPNDetail) onActionClicked() {
 	if vd.ctx.Read().Connected {
 		go vd.triggerAction(nil)
 	} else {
-		vd.loginDialog.open(func(result *model.Credentials) {
-			if result != nil {
-				vd.triggerAction(result)
-			}
-		})
+		vd.OpenDialog()
 	}
+}
+
+// is opening the connect dialog
+func (vd *VPNDetail) OpenDialog() {
+	vd.loginDialog.open(func(result *model.Credentials) {
+		if result != nil {
+			vd.triggerAction(result)
+		}
+	})
+}
+
+// returns opening status of dialog
+func (vd *VPNDetail) IsDialogOpen() bool {
+	return vd.loginDialog.isOpen()
+}
+
+// triggers dialog closing
+func (vd *VPNDetail) CloseDialog() {
+	vd.loginDialog.close()
 }
 
 // sets widget state and sends credentials over channel
@@ -154,11 +169,6 @@ func (vd *VPNDetail) triggerAction(cred *model.Credentials) {
 		vd.identityDetail.setReLoginBtn(false)
 	})
 	vd.actionClicked <- cred
-}
-
-// triggers dialog closing
-func (vd *VPNDetail) Close() {
-	vd.loginDialog.close()
 }
 
 // apply values related to trusted network setting

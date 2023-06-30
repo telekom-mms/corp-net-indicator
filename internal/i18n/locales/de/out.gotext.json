@@ -37,6 +37,11 @@
             "translation": "Ein Programm zur Anzeige des Unternehmensnetzwerkstatus."
         },
         {
+            "id": "Already connected to trusted network.",
+            "message": "Already connected to trusted network.",
+            "translation": "Verbindung zu einem vertrauenswürdigen Netzwerk hergestellt."
+        },
+        {
             "id": "Could not connect. Please Retry.",
             "message": "Could not connect. Please Retry.",
             "translation": "Verbindung fehlgeschlagen. Bitte erneut versuchen."

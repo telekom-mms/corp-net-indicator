@@ -2,6 +2,7 @@ package cmp_test
 
 import (
 	"testing"
+	"time"
 
 	gtk "github.com/diamondburned/gotk4/pkg/gtk/v4"
 	"github.com/stretchr/testify/assert"
@@ -14,7 +15,7 @@ func TestNotification(t *testing.T) {
 	n := cmp.NewNotification()
 	assert.Equal(t, n.Revealer.RevealChild(), false)
 
-	n.Show("Hu!")
+	n.Show("Hu!", time.Second)
 	assert.Equal(t, n.Revealer.RevealChild(), true)
 }
 

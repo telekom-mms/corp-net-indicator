@@ -51,6 +51,13 @@
             "fuzzy": true
         },
         {
+            "id": "Already connected to trusted network.",
+            "message": "Already connected to trusted network.",
+            "translation": "Already connected to trusted network.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
             "id": "Could not connect. Please Retry.",
             "message": "Could not connect. Please Retry.",
             "translation": "Could not connect. Please Retry.",

@@ -55,11 +55,11 @@ func NewNotification() *Notification {
 }
 
 // shows notification and hides them after 10s
-func (n *Notification) Show(text string) {
+func (n *Notification) Show(text string, timeout time.Duration) {
 	if n.timer != nil {
 		n.timer.Stop()
 	}
-	n.timer = time.NewTimer(time.Second * 10)
+	n.timer = time.NewTimer(timeout)
 	n.text.SetLabel(text)
 	n.Revealer.SetRevealChild(true)
 	go func() {

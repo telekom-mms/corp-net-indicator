@@ -23,6 +23,9 @@ func newLoginDialog(parent *gtk.Window, getServers func() ([]string, error)) *lo
 
 // triggers dialog opening
 func (d *loginDialog) open(onResult func(*model.Credentials)) {
+	d.m.Lock()
+	defer d.m.Unlock()
+
 	servers, err := d.getServers()
 	if err != nil {
 		// handle in parent
@@ -132,4 +135,12 @@ func (d *loginDialog) close() {
 		d.dialog.Destroy()
 		d.dialog = nil
 	}
+}
+
+// returns if dialog is open
+func (d *loginDialog) isOpen() bool {
+	d.m.Lock()
+	defer d.m.Unlock()
+
+	return d.dialog != nil
 }

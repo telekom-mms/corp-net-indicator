@@ -1,6 +1,8 @@
 package gtkui
 
 import (
+	"time"
+
 	"github.com/diamondburned/gotk4/pkg/core/glib"
 	gio "github.com/diamondburned/gotk4/pkg/gio/v2"
 	gtk "github.com/diamondburned/gotk4/pkg/gtk/v4"
@@ -13,6 +15,11 @@ import (
 	"github.com/telekom-mms/fw-id-agent/pkg/status"
 	"github.com/telekom-mms/oc-daemon/pkg/vpnstatus"
 )
+
+const KEEP_OPEN_TIME_LONG = 6 * time.Second
+const KEEP_OPEN_TIME_SHORT = time.Second
+const TIMEOUT_MSG = 5 * time.Second
+const TIMEOUT_ERROR = 10 * time.Second
 
 // holds all window parts
 type statusWindow struct {
@@ -29,6 +36,8 @@ type statusWindow struct {
 	vpnDetail      *cmp.VPNDetail
 
 	service *service.VPNService
+
+	timer *time.Timer
 }
 
 // creates new status window
@@ -149,16 +158,26 @@ func (sw *statusWindow) ApplyVPNStatus(status *vpnstatus.Status) {
 	if sw.window == nil {
 		return
 	}
-	sw.vpnDetail.Apply(status, func(vpnConnected bool) {
+	sw.vpnDetail.Apply(status, func(trusted bool) {
 		if sw.quickConnect {
-			if vpnConnected {
-				logger.Verbose("Closing window after quick connect")
-				sw.Close()
+			if trusted && sw.timer == nil {
+				if sw.vpnDetail.IsDialogOpen() {
+					sw.timer = time.NewTimer(KEEP_OPEN_TIME_LONG)
+					sw.vpnDetail.CloseDialog()
+					sw.notification.Show(i18n.L.Sprintf("Already connected to trusted network."), TIMEOUT_MSG)
+				} else {
+					sw.timer = time.NewTimer(KEEP_OPEN_TIME_SHORT)
+				}
+				go func() {
+					<-sw.timer.C
+					logger.Verbose("Closing window after quick connect")
+					sw.Close()
+				}()
 			}
-			if !sw.initiallyOpened && !vpnConnected {
+			if !sw.initiallyOpened && !trusted {
 				sw.initiallyOpened = true
-				logger.Verbose("Open window on quick connect")
-				sw.vpnDetail.OnActionClicked()
+				logger.Verbose("Open dialog on quick connect")
+				sw.vpnDetail.OpenDialog()
 			}
 		}
 	})
@@ -169,7 +188,7 @@ func (sw *statusWindow) Close() {
 	if sw.window == nil {
 		return
 	}
-	sw.vpnDetail.Close()
+	sw.vpnDetail.CloseDialog()
 	sw.window.Close()
 	sw.window.Destroy()
 }
@@ -200,6 +219,6 @@ func (sw *statusWindow) NotifyError(err error) {
 	}
 	glib.IdleAdd(func() {
 		sw.vpnDetail.SetButtonsAfterProgress()
-		sw.notification.Show(msg)
+		sw.notification.Show(msg, TIMEOUT_ERROR)
 	})
 }
