@@ -18,9 +18,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Fetch Tags
-        run: git fetch --force --tags
-
       - name: Install xvfb and gtk
         run: sudo apt-get update && sudo apt-get install libgtk-4-dev  libglib2.0-dev xvfb -y
 
