@@ -56,7 +56,7 @@ func NewIdentityDetails(
 }
 
 // applies new status to identity details
-func (id *IdentityDetails) Apply(status *status.Status) {
+func (id *IdentityDetails) Apply(status *status.Status, afterApply func(loggedIn bool)) {
 	glib.IdleAdd(func() {
 		ctx := id.ctx.Read()
 		// quick path for in progress updates
@@ -75,6 +75,8 @@ func (id *IdentityDetails) Apply(status *status.Status) {
 		id.krbEndTimeLabel.SetText(util.FormatDate(status.KerberosTGT.EndTime))
 		// set button state
 		id.setButtonAndLoginState()
+		// trigger after apply
+		afterApply(loggedIn)
 	})
 }
 

@@ -95,7 +95,7 @@ func NewVPNDetail(
 }
 
 // applies new vpn status and calls afterApply after them
-func (vd *VPNDetail) Apply(status *vpnstatus.Status, afterApply func(vpnConnected bool)) {
+func (vd *VPNDetail) Apply(status *vpnstatus.Status, afterApply func(connectedOrTrusted bool)) {
 	glib.IdleAdd(func() {
 		ctx := vd.ctx.Read()
 		if ctx.VPNInProgress {

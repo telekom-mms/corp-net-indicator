@@ -150,7 +150,23 @@ func (sw *statusWindow) ApplyIdentityStatus(status *status.Status) {
 	if sw.window == nil {
 		return
 	}
-	sw.identityDetail.Apply(status)
+	sw.identityDetail.Apply(status, func(loggedIn bool) {
+		ctx := sw.ctx.Read()
+		if sw.quickConnect && (ctx.Connected || ctx.TrustedNetwork) && loggedIn && sw.timer == nil {
+			if sw.vpnDetail.IsDialogOpen() {
+				sw.timer = time.NewTimer(KEEP_OPEN_TIME_LONG)
+				sw.vpnDetail.CloseDialog()
+				sw.notification.Show(i18n.L.Sprintf("Already connected to trusted network."), TIMEOUT_MSG)
+			} else {
+				sw.timer = time.NewTimer(KEEP_OPEN_TIME_SHORT)
+			}
+			go func() {
+				<-sw.timer.C
+				logger.Verbose("Closing window after quick connect")
+				sw.Close()
+			}()
+		}
+	})
 }
 
 // applies vpn status
@@ -160,20 +176,6 @@ func (sw *statusWindow) ApplyVPNStatus(status *vpnstatus.Status) {
 	}
 	sw.vpnDetail.Apply(status, func(trusted bool) {
 		if sw.quickConnect {
-			if trusted && sw.timer == nil {
-				if sw.vpnDetail.IsDialogOpen() {
-					sw.timer = time.NewTimer(KEEP_OPEN_TIME_LONG)
-					sw.vpnDetail.CloseDialog()
-					sw.notification.Show(i18n.L.Sprintf("Already connected to trusted network."), TIMEOUT_MSG)
-				} else {
-					sw.timer = time.NewTimer(KEEP_OPEN_TIME_SHORT)
-				}
-				go func() {
-					<-sw.timer.C
-					logger.Verbose("Closing window after quick connect")
-					sw.Close()
-				}()
-			}
 			if !sw.initiallyOpened && !trusted {
 				sw.initiallyOpened = true
 				logger.Verbose("Open dialog on quick connect")
