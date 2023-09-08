@@ -155,7 +155,7 @@ func (sw *statusWindow) ApplyIdentityStatus(status *status.Status) {
 		ctx := sw.ctx.Read()
 		if sw.quickConnect && (ctx.Connected || ctx.TrustedNetwork) && loggedIn && sw.timer == nil {
 			duration := time.Until(sw.trustedTime)
-			if duration <= 0 {
+			if duration < KEEP_OPEN_TIME_SHORT {
 				duration = KEEP_OPEN_TIME_SHORT
 			}
 			sw.timer = time.NewTimer(duration)
