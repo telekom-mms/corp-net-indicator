@@ -19,10 +19,10 @@ require (
 	github.com/godbus/dbus/v5 v5.1.0
 	github.com/stretchr/testify v1.8.2
 	github.com/telekom-mms/fw-id-agent v0.0.0-20230615100309-b71994c749cd
-	github.com/telekom-mms/oc-daemon v0.0.2
+	github.com/telekom-mms/oc-daemon v0.1.0
 	go4.org/unsafe/assume-no-moving-gc v0.0.0-20230525183740-e7c30c78aeb2 // indirect
 	golang.org/x/sync v0.3.0 // indirect
-	golang.org/x/sys v0.9.0 // indirect
+	golang.org/x/sys v0.13.0 // indirect
 )
 
 replace github.com/godbus/dbus/v5 v5.1.0 => github.com/malaupa/dbus/v5 v5.2.0-next
