@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -22,7 +22,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install libgtk-4-dev  libglib2.0-dev xvfb -y
 
       - name: Setup Go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v5
         with:
           go-version: stable
 
@@ -37,7 +37,7 @@ jobs:
           with_archive: true
 
       - name: Release
-        uses: goreleaser/goreleaser-action@v4
+        uses: goreleaser/goreleaser-action@v5
         with:
           distribution: goreleaser
           version: latest
@@ -53,7 +53,7 @@ jobs:
         version: [jammy] # add others, if same package should be available in many versions
     steps:
       - name: Deploy
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.PULL_TOKEN }}
           script: |+
