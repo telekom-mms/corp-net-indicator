@@ -29,8 +29,6 @@ jobs:
         uses: golangci/golangci-lint-action@v5
         with:
           version: latest
-          # https://github.com/golangci/golangci-lint-action/issues/135
-          skip-pkg-cache: true
   test:
     runs-on: ubuntu-22.04
     steps:
