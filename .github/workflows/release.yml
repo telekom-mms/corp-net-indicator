@@ -32,7 +32,7 @@ jobs:
 
       - name: Process results
         if: always()
-        uses: malaupa/go-test-coverage-summary-action@v2.0.0
+        uses: malaupa/go-test-coverage-summary-action@v3.0.0
         with:
           with_archive: true
 
