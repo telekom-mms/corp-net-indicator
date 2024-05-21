@@ -7,6 +7,7 @@ import (
 	"os/signal"
 	"strings"
 	"sync/atomic"
+	"time"
 
 	"github.com/slytomcat/systray"
 	"github.com/telekom-mms/corp-net-indicator/internal/assets"
@@ -30,6 +31,8 @@ type tray struct {
 
 	windowInitiallyOpened bool
 }
+
+const DEBOUNCE time.Duration = 4
 
 // starts tray
 func New() *tray {
@@ -182,7 +185,7 @@ func (t *tray) Run() {
 			t.apply(ctx)
 			// open window, if needed
 			if !t.windowInitiallyOpened {
-				t.windowInitiallyOpened = t.openWindowIfNeeded(status)
+				t.windowInitiallyOpened = t.openWindowIfNeeded(status, true)
 			}
 		case <-wChan:
 			logger.Verbose("Watcher signal received")
@@ -191,7 +194,7 @@ func (t *tray) Run() {
 				logger.Logf("Error: %v\n", err)
 				os.Exit(1)
 			}
-			t.openWindowIfNeeded(status)
+			t.openWindowIfNeeded(status, false)
 		case <-c:
 			logger.Verbose("Received SIGINT -> closing")
 
@@ -238,10 +241,15 @@ func (t *tray) apply(ctx model.ContextValues) {
 }
 
 // opens window if needed
-func (t *tray) openWindowIfNeeded(status *vpnstatus.Status) bool {
+func (t *tray) openWindowIfNeeded(status *vpnstatus.Status, debounce bool) bool {
 	if status.TrustedNetwork == vpnstatus.TrustedNetworkNotTrusted &&
 		status.ConnectionState <= vpnstatus.ConnectionStateDisconnected {
-		t.OpenWindow(true)
+		go func() {
+			if debounce {
+				time.Sleep(time.Second * DEBOUNCE)
+			}
+			t.OpenWindow(true)
+		}()
 		return true
 	}
 	return false

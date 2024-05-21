@@ -1,11 +1,15 @@
 [Unit]
 Description=Corporate Network Indicator
-PartOf=graphical-session.target
-After=graphical-session.target
+Requires=dbus.service
+After=default.target
+After=dbus.service
+ConditionUser=!@system
+ConditionEnvironment=DISPLAY
+ConditionEnvironment=XAUTHORITY
 
 [Service]
 ExecStart=/usr/bin/corp-net-indicator-tray
 Restart=always
 
 [Install]
-WantedBy=graphical-session.target
+WantedBy=default.target
