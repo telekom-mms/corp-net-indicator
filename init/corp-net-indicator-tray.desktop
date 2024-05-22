@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.5
+Type=Application
+Name=Corporate Network Indicator Tray
+GenericName=Network Indicator Tray
+GenericName[de]=Netzwerk Indikator Tray
+Exec=/usr/bin/corp-net-indicator-tray
+NoDisplay=true

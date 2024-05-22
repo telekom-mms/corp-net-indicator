@@ -1,6 +1,7 @@
 package gtkui
 
 import (
+	"os"
 	"time"
 
 	"github.com/diamondburned/gotk4/pkg/core/glib"
@@ -199,8 +200,7 @@ func (sw *statusWindow) Close() {
 		return
 	}
 	sw.vpnDetail.CloseDialog()
-	sw.window.Close()
-	sw.window.Destroy()
+	os.Exit(0)
 }
 
 // triggers notification to show for given error

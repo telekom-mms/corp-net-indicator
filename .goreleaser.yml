@@ -37,8 +37,8 @@ archives:
   - format: tar.gz
     wrap_in_directory: true
     files:
-      - src: init/corp-net-indicator.service
-        dst: corp-net-indicator.service
+      - src: init/corp-net-indicator-tray.desktop
+        dst: corp-net-indicator-tray.desktop
         info:
           mode: 0644
       - src: init/corp-net-indicator.desktop
@@ -101,8 +101,8 @@ nfpms:
         dst: /usr/share/applications/
         file_info:
           mode: 0644
-      - src: init/corp-net-indicator.service
-        dst: /usr/lib/systemd/user/
+      - src: init/corp-net-indicator-tray.desktop
+        dst: /usr/share/corp-net-indicator/
         file_info:
           mode: 0644
       - src: copyright
