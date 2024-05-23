@@ -182,11 +182,13 @@ func (vd *VPNDetail) applyTrustedNetwork(trustedNetwork bool) {
 		vd.connectedImg.SetIgnore()
 		vd.connectedAtLabel.SetText(util.DefaultValue)
 		vd.ipLabel.SetText(util.DefaultValue)
+		vd.ipLabel.SetSelectable(false)
 	} else {
 		vd.trustedNetworkLabel.SetText(i18n.L.Sprintf("not trusted"))
 		vd.actionBtn.SetSensitive(true)
 		vd.connectedImg.SetOpacity(1)
 		vd.connectedAtLabel.SetOpacity(1)
 		vd.ipLabel.SetOpacity(1)
+		vd.ipLabel.SetSelectable(true)
 	}
 }
