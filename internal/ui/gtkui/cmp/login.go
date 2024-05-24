@@ -37,7 +37,7 @@ func (d *loginDialog) open(onResult func(*model.Credentials)) {
 		gtk.DialogModal |
 		gtk.DialogUseHeaderBar
 
-	d.dialog = gtk.NewDialogWithFlags("", d.parent, dialogFlags)
+	d.dialog = gtk.NewDialogWithFlags(i18n.L.Sprintf("Connect VPN"), d.parent, dialogFlags)
 	d.dialog.SetResizable(false)
 
 	// create inputs/entries to collected user data
