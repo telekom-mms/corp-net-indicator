@@ -7,7 +7,7 @@ toolchain go1.22.1
 require (
 	github.com/diamondburned/gotk4/pkg v0.2.2
 	github.com/slytomcat/systray v1.10.2
-	golang.org/x/text v0.14.0
+	golang.org/x/text v0.16.0
 )
 
 require (
@@ -26,10 +26,10 @@ require (
 	github.com/godbus/dbus/v5 v5.1.0
 	github.com/stretchr/testify v1.9.0
 	github.com/telekom-mms/fw-id-agent v1.0.0
-	github.com/telekom-mms/oc-daemon v1.0.0
+	github.com/telekom-mms/oc-daemon v1.1.0
 	go4.org/unsafe/assume-no-moving-gc v0.0.0-20231121144256-b99613f794b6 // indirect
 	golang.org/x/sync v0.7.0 // indirect
-	golang.org/x/sys v0.19.0 // indirect
+	golang.org/x/sys v0.22.0 // indirect
 )
 
 replace github.com/godbus/dbus/v5 v5.1.0 => github.com/malaupa/dbus/v5 v5.2.0-next
