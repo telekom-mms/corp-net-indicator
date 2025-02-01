@@ -3,6 +3,7 @@ package cmp
 import (
 	"github.com/diamondburned/gotk4/pkg/core/glib"
 	gtk "github.com/diamondburned/gotk4/pkg/gtk/v4"
+	"github.com/telekom-mms/corp-net-indicator/internal/assets"
 	"github.com/telekom-mms/corp-net-indicator/internal/i18n"
 	"github.com/telekom-mms/corp-net-indicator/internal/logger"
 	"github.com/telekom-mms/corp-net-indicator/internal/model"
@@ -25,6 +26,7 @@ type VPNDetail struct {
 	ipLabel             *gtk.Label
 	deviceLabel         *gtk.Label
 	certExpiresLabel    *gtk.Label
+	certExpiresImg      *gtk.Image
 	loginDialog         *loginDialog
 
 	identityDetail *IdentityDetails
@@ -62,6 +64,9 @@ func NewVPNDetail(
 	vd.ipLabel = gtk.NewLabel(util.DefaultValue)
 	vd.deviceLabel = gtk.NewLabel(util.DefaultValue)
 	vd.certExpiresLabel = gtk.NewLabel(util.DefaultValue)
+	vd.certExpiresImg = gtk.NewImage()
+	vd.certExpiresImg.Hide()
+	vd.certExpiresImg.SetFromPixbuf(getPixbuf(assets.SVGWarning))
 	vd.applyTrustedNetwork(false)
 
 	// set icons, labels and button with spinner in details box
@@ -72,7 +77,7 @@ func NewVPNDetail(
 		addRow(i18n.L.Sprintf("Connected at"), vd.connectedAtLabel).
 		addRow(i18n.L.Sprintf("IP"), vd.ipLabel).
 		addRow(i18n.L.Sprintf("Device"), vd.deviceLabel).
-		addRow(i18n.L.Sprintf("Certificate expires"), vd.certExpiresLabel)
+		addRow(i18n.L.Sprintf("Certificate expires"), vd.certExpiresLabel, vd.certExpiresImg)
 
 		// set expire date
 	go func() {
@@ -85,6 +90,10 @@ func NewVPNDetail(
 
 		glib.IdleAdd(func() {
 			vd.certExpiresLabel.SetText(notAfter)
+			// TODO check cert date
+			vd.certExpiresLabel.StyleContext().AddClass("corp-error-label")
+			vd.certExpiresImg.Show()
+			vd.frame.StyleContext().AddClass("corp-error-box")
 		})
 	}()
 

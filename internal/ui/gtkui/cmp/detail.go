@@ -6,7 +6,8 @@ import (
 
 type detail struct {
 	gtk.Box
-	list *gtk.ListBox
+	list  *gtk.ListBox
+	frame *gtk.Frame
 }
 
 // creates new detail box base
@@ -28,11 +29,11 @@ func (d *detail) buildBase(title string) *detail {
 	label.SetHAlign(gtk.AlignStart)
 	label.AddCSSClass("title-4")
 	// frame is needed to get rounded corners
-	frame := gtk.NewFrame("")
-	frame.SetChild(d.list)
+	d.frame = gtk.NewFrame("")
+	d.frame.SetChild(d.list)
 	// append all
 	d.Append(label)
-	d.Append(frame)
+	d.Append(d.frame)
 	return d
 }
 

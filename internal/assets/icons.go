@@ -19,9 +19,10 @@ const (
 )
 
 const (
-	SVGAlert Icon = "icons/close_circle.svg"
-	SVGCheck Icon = "icons/check_circle.svg"
-	SVGMinus Icon = "icons/minus_circle.svg"
+	SVGAlert   Icon = "icons/close_circle.svg"
+	SVGCheck   Icon = "icons/check_circle.svg"
+	SVGMinus   Icon = "icons/minus_circle.svg"
+	SVGWarning Icon = "icons/alert_triangle.svg"
 )
 
 // returns known icons, otherwise panics

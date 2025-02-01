@@ -2,11 +2,14 @@ package gtkui
 
 import (
 	"os"
+	"strings"
 	"time"
 
 	"github.com/diamondburned/gotk4/pkg/core/glib"
+	"github.com/diamondburned/gotk4/pkg/gdk/v4"
 	gio "github.com/diamondburned/gotk4/pkg/gio/v2"
 	gtk "github.com/diamondburned/gotk4/pkg/gtk/v4"
+	"github.com/telekom-mms/corp-net-indicator/internal/assets"
 	"github.com/telekom-mms/corp-net-indicator/internal/config"
 	"github.com/telekom-mms/corp-net-indicator/internal/i18n"
 	"github.com/telekom-mms/corp-net-indicator/internal/logger"
@@ -53,7 +56,20 @@ func (sw *statusWindow) Open(quickConnect bool, service *service.VPNService, onR
 	sw.quickConnect = quickConnect
 	sw.service = service
 	app := gtk.NewApplication("de.telekom-mms.corp-net-indicator", gio.ApplicationFlagsNone)
+	css := assets.GetCss()
+	prov := gtk.NewCSSProvider()
+	prov.ConnectParsingError(func(section *gtk.CSSSection, err error) {
+		loc := section.StartLocation()
+		lines := strings.Split(css, "\n")
+		logger.Verbosef("CSS error (%v) at line: %q", err, lines[loc.Lines()])
+	})
+	prov.LoadFromData(css)
 	app.ConnectActivate(func() {
+		gtk.StyleContextAddProviderForDisplay(
+			gdk.DisplayGetDefault(),
+			prov,
+			gtk.STYLE_PROVIDER_PRIORITY_APPLICATION,
+		)
 		sw.window = gtk.NewApplicationWindow(app)
 		sw.window.SetTitle("Corporate Network Status")
 		sw.window.SetResizable(false)
