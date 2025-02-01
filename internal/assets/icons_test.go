@@ -17,6 +17,10 @@ func TestGetIcon(t *testing.T) {
 	assert.NotEmpty(assets.GetIcon(assets.Connect))
 	assert.NotEmpty(assets.GetIcon(assets.Disconnect))
 	assert.NotEmpty(assets.GetIcon(assets.Status))
+	assert.NotEmpty(assets.GetIcon(assets.SVGWarning))
+	assert.NotEmpty(assets.GetIcon(assets.SVGAlert))
+	assert.NotEmpty(assets.GetIcon(assets.SVGMinus))
+	assert.NotEmpty(assets.GetIcon(assets.SVGCheck))
 
 	// bad case
 	assert.Panics(func() {

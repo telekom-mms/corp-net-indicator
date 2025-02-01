@@ -86,10 +86,10 @@ var deIndex = []uint32{ // 35 elements
 	0x000002a9, 0x000002b3, 0x000002cb, 0x000002d7,
 	0x000002e6, 0x000002f0, 0x000002fd, 0x00000300,
 	// Entry 20 - 3F
-	0x00000307, 0x00000320, 0x00000332,
+	0x00000307, 0x0000031f, 0x00000331,
 } // Size: 164 bytes
 
-const deData string = "" + // Size: 818 bytes
+const deData string = "" + // Size: 817 bytes
 	"\x02Status\x02Status anzeigen\x02VPN verbinden\x02Mit dem VPN verbinden" +
 	"\x02VPN trennen\x02Über\x02Ein Programm zur Anzeige des Unternehmensnetz" +
 	"werkstatus.\x02Verbindung zu einem vertrauenswürdigen Netzwerk hergestel" +
@@ -102,7 +102,7 @@ const deData string = "" + // Size: 818 bytes
 	"ls\x02Angemeldet\x02Letzte Anmeldung\x02Kerberos Ticket gültig bis\x02Pa" +
 	"sswort\x02Server\x02Verbinden\x02Abbrechen\x02nicht vertrauenswürdig\x02" +
 	"VPN Details\x02Phys. Netzwerk\x02Verbunden\x02Verbunden am\x02IP\x02Gerä" +
-	"t\x02Zertifikat läuft aus am\x02vertrauenswürdig"
+	"t\x02Zertifikat läuft ab am\x02vertrauenswürdig"
 
 var enIndex = []uint32{ // 35 elements
 	// Entry 0 - 1F
@@ -131,4 +131,4 @@ const enData string = "" + // Size: 637 bytes
 	"hysical network\x02Connected\x02Connected at\x02IP\x02Device\x02Certific" +
 	"ate expires\x02trusted"
 
-	// Total table size 1783 bytes (1KiB); checksum: 85BF0127
+	// Total table size 1782 bytes (1KiB); checksum: 4908D755
