@@ -17,8 +17,8 @@ func TestInitVPNDetail(t *testing.T) {
 		func() ([]string, error) {
 			return []string{}, nil
 		},
-		func() (int64, error) {
-			return 0, nil
+		func() (int64, bool, error) {
+			return 0, false, nil
 		},
 		nil,
 	)

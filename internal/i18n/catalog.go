@@ -70,12 +70,14 @@ var messageKeyToIndex = map[string]int{
 	"Server":      22,
 	"Show Status": 1,
 	"Status":      0,
+	"The certificate expired.\nPlease contact support.":                33,
+	"The certificate expires within %d days.\nPlease contact support.": 34,
 	"VPN Details": 26,
 	"not trusted": 25,
-	"trusted":     33,
+	"trusted":     35,
 }
 
-var deIndex = []uint32{ // 35 elements
+var deIndex = []uint32{ // 37 elements
 	// Entry 0 - 1F
 	0x00000000, 0x00000007, 0x00000017, 0x00000025,
 	0x0000003b, 0x00000047, 0x0000004d, 0x00000086,
@@ -86,10 +88,11 @@ var deIndex = []uint32{ // 35 elements
 	0x000002a9, 0x000002b3, 0x000002cb, 0x000002d7,
 	0x000002e6, 0x000002f0, 0x000002fd, 0x00000300,
 	// Entry 20 - 3F
-	0x00000307, 0x0000031f, 0x00000331,
-} // Size: 164 bytes
+	0x00000307, 0x0000031f, 0x00000362, 0x000003c1,
+	0x000003d3,
+} // Size: 172 bytes
 
-const deData string = "" + // Size: 817 bytes
+const deData string = "" + // Size: 979 bytes
 	"\x02Status\x02Status anzeigen\x02VPN verbinden\x02Mit dem VPN verbinden" +
 	"\x02VPN trennen\x02Über\x02Ein Programm zur Anzeige des Unternehmensnetz" +
 	"werkstatus.\x02Verbindung zu einem vertrauenswürdigen Netzwerk hergestel" +
@@ -102,9 +105,12 @@ const deData string = "" + // Size: 817 bytes
 	"ls\x02Angemeldet\x02Letzte Anmeldung\x02Kerberos Ticket gültig bis\x02Pa" +
 	"sswort\x02Server\x02Verbinden\x02Abbrechen\x02nicht vertrauenswürdig\x02" +
 	"VPN Details\x02Phys. Netzwerk\x02Verbunden\x02Verbunden am\x02IP\x02Gerä" +
-	"t\x02Zertifikat läuft ab am\x02vertrauenswürdig"
+	"t\x02Zertifikat läuft ab am\x02Das Zertifikat ist abgelaufen.\x0aBitte k" +
+	"ontaktieren Sie den Support.\x02Das Zertifikat wird in den nächsten %[1]" +
+	"d Tagen ablaufen.\x0aBitte kontaktieren Sie den Support.\x02vertrauenswü" +
+	"rdig"
 
-var enIndex = []uint32{ // 35 elements
+var enIndex = []uint32{ // 37 elements
 	// Entry 0 - 1F
 	0x00000000, 0x00000007, 0x00000013, 0x0000001f,
 	0x0000002e, 0x0000003d, 0x00000043, 0x0000006d,
@@ -115,10 +121,11 @@ var enIndex = []uint32{ // 35 elements
 	0x00000210, 0x00000217, 0x00000223, 0x0000022f,
 	0x00000240, 0x0000024a, 0x00000257, 0x0000025a,
 	// Entry 20 - 3F
-	0x00000261, 0x00000275, 0x0000027d,
-} // Size: 164 bytes
+	0x00000261, 0x00000275, 0x000002a6, 0x000002e9,
+	0x000002f1,
+} // Size: 172 bytes
 
-const enData string = "" + // Size: 637 bytes
+const enData string = "" + // Size: 753 bytes
 	"\x02Status\x02Show Status\x02Connect VPN\x02Connect to VPN\x02Disconnect" +
 	" VPN\x02About\x02Program to show corporate network status.\x02Already co" +
 	"nnected to trusted network.\x02Could not connect. Please Retry.\x02Could" +
@@ -129,6 +136,8 @@ const enData string = "" + // Size: 637 bytes
 	"etails\x02Logged in\x02Last Refresh\x02Kerberos ticket valid until\x02Pa" +
 	"ssword\x02Server\x02Connect\x02Cancel\x02not trusted\x02VPN Details\x02P" +
 	"hysical network\x02Connected\x02Connected at\x02IP\x02Device\x02Certific" +
-	"ate expires\x02trusted"
+	"ate expires\x02The certificate expired.\x0aPlease contact support.\x02Th" +
+	"e certificate expires within %[1]d days.\x0aPlease contact support.\x02t" +
+	"rusted"
 
-	// Total table size 1782 bytes (1KiB); checksum: 4908D755
+	// Total table size 2076 bytes (2KiB); checksum: ACD0598B

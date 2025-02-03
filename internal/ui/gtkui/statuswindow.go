@@ -129,12 +129,12 @@ func (sw *statusWindow) Open(quickConnect bool, service *service.VPNService, onR
 				}
 				return servers, err
 			},
-			func() (int64, error) {
-				date, err := sw.service.GetCertExpireDate()
+			func() (int64, bool, error) {
+				date, warn, err := sw.service.GetCertExpireDate()
 				if err != nil {
 					go sw.NotifyError(err)
 				}
-				return date, err
+				return date, warn, err
 			},
 			sw.identityDetail)
 

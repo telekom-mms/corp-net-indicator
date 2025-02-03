@@ -4,11 +4,14 @@ import (
 	"crypto/x509"
 	"encoding/pem"
 	"os/exec"
+	"time"
 
 	"github.com/telekom-mms/corp-net-indicator/internal/logger"
 	oc "github.com/telekom-mms/oc-daemon/pkg/client"
 	"github.com/telekom-mms/oc-daemon/pkg/vpnstatus"
 )
+
+const THIRTY_DAYS = 30 * 24 * 60 * 60
 
 type ErrConnect struct{ BaseError }
 type ErrDisconnect struct{ BaseError }
@@ -73,12 +76,12 @@ func (v *VPNService) GetServers() ([]string, error) {
 	return result.Servers, wrapErr(err, &ErrGetServers{})
 }
 
-func (v *VPNService) GetCertExpireDate() (int64, error) {
+func (v *VPNService) GetCertExpireDate() (int64, bool, error) {
 	// read cert
 	out, err := exec.Command("p11tool", "--export", v.client.GetConfig().ClientCertificate).Output()
 	if err != nil {
 		logger.Logf("Warning: Can't read client certificate: %v", err)
-		return -1, wrapErr(err, &ErrGetCertDate{})
+		return -1, false, wrapErr(err, &ErrGetCertDate{})
 	}
 	// decode
 	der, _ := pem.Decode(out)
@@ -86,10 +89,11 @@ func (v *VPNService) GetCertExpireDate() (int64, error) {
 	cert, err := x509.ParseCertificate(der.Bytes)
 	if err != nil {
 		logger.Logf("Warning: Can't parse client certificate: %v", err)
-		return -1, wrapErr(err, &ErrGetCertDate{})
+		return -1, false, wrapErr(err, &ErrGetCertDate{})
 	}
 	// set value
-	return cert.NotAfter.Unix(), nil
+	notAfter := cert.NotAfter.Unix()
+	return notAfter, (notAfter - THIRTY_DAYS) < time.Now().Unix(), nil
 }
 
 func (v *VPNService) GetStatus() (*vpnstatus.Status, error) {

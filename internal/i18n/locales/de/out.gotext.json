@@ -177,6 +177,26 @@
             "translation": "Zertifikat läuft ab am"
         },
         {
+            "id": "The certificate expired.\nPlease contact support.",
+            "message": "The certificate expired.\nPlease contact support.",
+            "translation": "Das Zertifikat ist abgelaufen.\nBitte kontaktieren Sie den Support."
+        },
+        {
+            "id": "The certificate expires within {Days} days.\nPlease contact support.",
+            "message": "The certificate expires within {Days} days.\nPlease contact support.",
+            "translation": "Das Zertifikat wird in den nächsten {Days} Tagen ablaufen.\nBitte kontaktieren Sie den Support.",
+            "placeholders": [
+                {
+                    "id": "Days",
+                    "string": "%[1]d",
+                    "type": "int64",
+                    "underlyingType": "int64",
+                    "argNum": 1,
+                    "expr": "days"
+                }
+            ]
+        },
+        {
             "id": "trusted",
             "message": "trusted",
             "translation": "vertrauenswürdig"
