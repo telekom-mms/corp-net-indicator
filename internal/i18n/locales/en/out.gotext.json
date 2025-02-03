@@ -243,6 +243,30 @@
             "fuzzy": true
         },
         {
+            "id": "The certificate expired.\nPlease contact support.",
+            "message": "The certificate expired.\nPlease contact support.",
+            "translation": "The certificate expired.\nPlease contact support.",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "The certificate expires within {Days} days.\nPlease contact support.",
+            "message": "The certificate expires within {Days} days.\nPlease contact support.",
+            "translation": "The certificate expires within {Days} days.\nPlease contact support.",
+            "translatorComment": "Copied from source.",
+            "placeholders": [
+                {
+                    "id": "Days",
+                    "string": "%[1]d",
+                    "type": "int64",
+                    "underlyingType": "int64",
+                    "argNum": 1,
+                    "expr": "days"
+                }
+            ],
+            "fuzzy": true
+        },
+        {
             "id": "trusted",
             "message": "trusted",
             "translation": "trusted",

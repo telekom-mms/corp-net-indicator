@@ -25,6 +25,8 @@ type tray struct {
 	startSystray func()
 	quitSystray  func()
 
+	vSer *service.VPNService
+
 	window    atomic.Pointer[os.Process]
 	closeChan chan struct{}
 
@@ -117,12 +119,12 @@ func (t *tray) Run() {
 	// start tray
 	t.startSystray()
 	// create services
-	vSer := service.NewVPNService()
+	t.vSer = service.NewVPNService()
 	iSer := service.NewIdentityService()
 	wSer := service.NewWatcher()
 
 	// listen to status changes
-	vChan := vSer.Subscribe()
+	vChan := t.vSer.Subscribe()
 	iChan := iSer.Subscribe()
 
 	// catch user login
@@ -149,7 +151,7 @@ func (t *tray) Run() {
 
 				t.actionItem.Disable()
 				go func() {
-					e <- vSer.Disconnect()
+					e <- t.vSer.Disconnect()
 				}()
 			} else {
 				logger.Verbose("Open window to quick connect")
@@ -186,7 +188,7 @@ func (t *tray) Run() {
 			}
 		case <-wChan:
 			logger.Verbose("Watcher signal received")
-			status, err := vSer.GetStatus()
+			status, err := t.vSer.GetStatus()
 			if err != nil {
 				logger.Logf("Error: %v\n", err)
 				os.Exit(1)
@@ -196,7 +198,7 @@ func (t *tray) Run() {
 			logger.Verbose("Received SIGINT -> closing")
 
 			t.closeWindow()
-			vSer.Close()
+			t.vSer.Close()
 			iSer.Close()
 			wSer.Close()
 			t.quitSystray()
@@ -243,6 +245,14 @@ func (t *tray) openWindowIfNeeded(status *vpnstatus.Status) bool {
 		status.ConnectionState <= vpnstatus.ConnectionStateDisconnected {
 		t.OpenWindow(true)
 		return true
+	}
+	if status.TrustedNetwork == vpnstatus.TrustedNetworkTrusted {
+		go func() {
+			_, warn, _ := t.vSer.GetCertExpireDate()
+			if warn {
+				t.OpenWindow(false)
+			}
+		}()
 	}
 	return false
 }

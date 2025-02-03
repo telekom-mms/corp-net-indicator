@@ -1,6 +1,9 @@
 package cmp
 
 import (
+	"math"
+	"time"
+
 	"github.com/diamondburned/gotk4/pkg/core/glib"
 	gtk "github.com/diamondburned/gotk4/pkg/gtk/v4"
 	"github.com/telekom-mms/corp-net-indicator/internal/assets"
@@ -43,7 +46,7 @@ func NewVPNDetail(
 	// servers to list in login window
 	getServers func() ([]string, error),
 	// get cert expire date
-	getCertExpireDate func() (int64, error),
+	getCertExpireDate func() (int64, bool, error),
 	// identity details to set button and icon state
 	identityDetail *IdentityDetails) *VPNDetail {
 
@@ -79,9 +82,9 @@ func NewVPNDetail(
 		addRow(i18n.L.Sprintf("Device"), vd.deviceLabel).
 		addRow(i18n.L.Sprintf("Certificate expires"), vd.certExpiresLabel, vd.certExpiresImg)
 
-		// set expire date
+	// set expire date
 	go func() {
-		date, err := getCertExpireDate()
+		date, warn, err := getCertExpireDate()
 		if err != nil {
 			return
 		}
@@ -90,10 +93,21 @@ func NewVPNDetail(
 
 		glib.IdleAdd(func() {
 			vd.certExpiresLabel.SetText(notAfter)
-			// TODO check cert date
-			vd.certExpiresLabel.StyleContext().AddClass("corp-error-label")
-			vd.certExpiresImg.Show()
-			vd.frame.StyleContext().AddClass("corp-error-box")
+			if warn {
+				now := time.Now().Unix()
+				var days int64 = 0
+				if date > now {
+					days = int64(math.Ceil(float64(date-now) / (24 * 60 * 60)))
+				}
+				vd.frame.StyleContext().AddClass("corp-error-box")
+				vd.certExpiresLabel.StyleContext().AddClass("corp-error-label")
+				vd.certExpiresImg.Show()
+				tooltip := i18n.L.Sprintf("The certificate expired.\nPlease contact support.")
+				if days > 0 {
+					tooltip = i18n.L.Sprintf("The certificate expires within %d days.\nPlease contact support.", days)
+				}
+				vd.certExpiresImg.SetTooltipText(tooltip)
+			}
 		})
 	}()
 
